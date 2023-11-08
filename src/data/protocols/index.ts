@@ -1,3 +1,3 @@
-export * from "./password-hasher-interface";
-export * from "./password-hash-checker-interface";
-export * from "./id-generator-interface";
+export * from "./utils/password-hasher-interface";
+export * from "./utils/password-hash-checker-interface";
+export * from "./utils/id-generator-interface";
