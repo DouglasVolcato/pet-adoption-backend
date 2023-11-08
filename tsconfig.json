@@ -1,9 +1,8 @@
 {
   "compilerOptions": {
     "target": "es2016",
-    "module": "amd",
-    "rootDir": "./src",
-    "outFile": "./dist/bundle.js",
+    "module": "CommonJS",
+    "rootDir": ".",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
