@@ -12,9 +12,11 @@
   "license": "ISC",
   "dependencies": {
     "@faker-js/faker": "^8.2.0",
+    "bcrypt": "^5.1.1",
     "email-validator": "^2.0.4"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/email-validator": "^1.0.6",
     "@types/faker": "^6.6.9",
     "@types/jest": "^29.5.8",
