@@ -1,5 +1,6 @@
 import { ValidatorInterface } from "../../../src/presentation/protocols";
 import { ValidatorComposite } from "../../../src/validation/composites";
+import { FakeData } from "../../test-helpers/fake-data";
 import { makeUserDto } from "../../test-helpers/mocks";
 import { ValidatorStub } from "../../test-helpers/stubs";
 
@@ -33,12 +34,13 @@ describe("ValidatorComposite", () => {
 
   it("Validate should return an error if a validator returns an error", () => {
     const { sut, validatorStub1 } = makeSut();
+    const errorMessage = FakeData.phrase();
     jest
       .spyOn(validatorStub1, "validate")
-      .mockReturnValueOnce(new Error("any_error"));
+      .mockReturnValueOnce(new Error(errorMessage));
     const error = sut.validate(makeUserDto());
 
-    expect(error).toEqual(new Error("any_error"));
+    expect(error).toEqual(new Error(errorMessage));
   });
 
   it("Validate should return undefined", () => {

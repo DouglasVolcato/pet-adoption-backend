@@ -6,4 +6,5 @@ export const FakeData = {
   word: (length = 10): string => faker.string.alphanumeric({ length }),
   id: (): string => faker.string.uuid(),
   numberInteger: (): number => faker.number.int(),
+  phrase: (): string => faker.lorem.words(),
 };
