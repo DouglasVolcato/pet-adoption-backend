@@ -12,15 +12,32 @@ export class FieldTypeValidator implements ValidatorInterface {
   }
 
   public validate(data: any): Error | undefined {
-    if (!(this.fieldName in data)) {
+    if (!this.isFieldAvailable(data)) {
       return new RequiredFieldError(this.fieldName);
     }
+
     if (this.fieldType === FieldTypeEnum.ARRAY) {
-      if (!Array.isArray(data[this.fieldName])) {
-        return new InvalidFieldError(this.fieldName);
-      }
-    } else if (!(typeof data[this.fieldName] === this.fieldType)) {
+      return this.handleArrayValidation(data);
+    } else {
+      return this.handleFieldTypeValidation(data);
+    }
+  }
+
+  private isFieldAvailable(data: any): boolean {
+    return this.fieldName in data;
+  }
+
+  private handleArrayValidation(data: any): Error | undefined {
+    if (!Array.isArray(data[this.fieldName])) {
       return new InvalidFieldError(this.fieldName);
     }
+    return undefined;
+  }
+
+  private handleFieldTypeValidation(data: any): Error | undefined {
+    if (typeof data[this.fieldName] !== this.fieldType) {
+      return new InvalidFieldError(this.fieldName);
+    }
+    return undefined;
   }
 }
