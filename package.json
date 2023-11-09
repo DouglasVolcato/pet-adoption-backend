@@ -18,6 +18,7 @@
     "bcrypt": "^5.1.1",
     "dotenv": "^16.3.1",
     "email-validator": "^2.0.4",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.0.0",
     "uuid": "^9.0.1"
   },
@@ -27,6 +28,7 @@
     "@types/email-validator": "^1.0.6",
     "@types/faker": "^6.6.9",
     "@types/jest": "^29.5.8",
+    "@types/jsonwebtoken": "^9.0.5",
     "@types/mongoose": "^5.11.97",
     "faker": "^5.5.3",
     "jest": "^29.7.0",
