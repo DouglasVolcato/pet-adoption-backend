@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="iRc1kdBVz0h4nAgd-T1v" name="Page-1">
-        <mxGraphModel dx="924" dy="413" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="914" dy="443" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -117,7 +117,7 @@
                 <mxCell id="39" style="edgeStyle=none;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;dashed=1;strokeWidth=3;fontSize=20;" parent="1" source="40" target="31" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="109" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;strokeWidth=3;" edge="1" parent="1" source="40" target="43">
+                <mxCell id="109" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;strokeWidth=3;" parent="1" source="40" target="43" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
                             <mxPoint x="1290" y="1214"/>
@@ -195,10 +195,10 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="110" style="edgeStyle=none;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;strokeWidth=3;" edge="1" parent="1" source="83" target="86">
+                <mxCell id="110" style="edgeStyle=none;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;strokeWidth=3;" parent="1" source="83" target="86" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="111" style="edgeStyle=none;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.092;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;strokeWidth=3;" edge="1" parent="1" source="83" target="87">
+                <mxCell id="111" style="edgeStyle=none;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.092;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;strokeWidth=3;" parent="1" source="83" target="87" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
                             <mxPoint x="481" y="920"/>
@@ -209,13 +209,13 @@
                 <mxCell id="83" value="GetUserByTokenService" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;fontStyle=1" parent="1" vertex="1">
                     <mxGeometry x="410" y="800" width="285" height="80" as="geometry"/>
                 </mxCell>
-                <mxCell id="86" value="TokenCheckerInterface" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0050ef;fontColor=#ffffff;strokeColor=#001DBC;fontSize=20;fontStyle=1" parent="1" vertex="1">
+                <mxCell id="86" value="TokenDecrypterInterface" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0050ef;fontColor=#ffffff;strokeColor=#001DBC;fontSize=20;fontStyle=1" parent="1" vertex="1">
                     <mxGeometry x="477.5" y="930" width="297.5" height="90" as="geometry"/>
                 </mxCell>
                 <mxCell id="87" value="GetUserByIdRepositoryInterface" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0050ef;fontColor=#ffffff;strokeColor=#001DBC;fontSize=20;fontStyle=1" parent="1" vertex="1">
                     <mxGeometry x="395" y="1050" width="380" height="90" as="geometry"/>
                 </mxCell>
-                <mxCell id="108" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;strokeWidth=3;" edge="1" parent="1" source="89" target="43">
+                <mxCell id="108" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;strokeWidth=3;" parent="1" source="89" target="43" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
                             <mxPoint x="1290" y="1095"/>
@@ -223,7 +223,7 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="113" style="edgeStyle=none;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;dashed=1;strokeWidth=3;" edge="1" parent="1" source="89" target="87">
+                <mxCell id="113" style="edgeStyle=none;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;dashed=1;strokeWidth=3;" parent="1" source="89" target="87" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="89" value="UserMongoDBRepository" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;fontStyle=1" parent="1" vertex="1">
@@ -232,7 +232,7 @@
                 <mxCell id="92" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;strokeWidth=3;fontSize=20;" parent="1" source="93" target="94" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="112" style="edgeStyle=none;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=3;dashed=1;" edge="1" parent="1" source="93" target="86">
+                <mxCell id="112" style="edgeStyle=none;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=3;dashed=1;" parent="1" source="93" target="86" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="93" value="JwtAdapter" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;fontStyle=1" parent="1" vertex="1">
