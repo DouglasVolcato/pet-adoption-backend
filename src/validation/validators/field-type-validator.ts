@@ -1,6 +1,9 @@
 import { ValidatorInterface } from "../../presentation/protocols";
-import { InvalidFieldError, RequiredFieldError } from "../errors";
 import { FieldTypeEnum } from "../protocols";
+import {
+  InvalidFieldError,
+  RequiredFieldError,
+} from "../../presentation/helpers";
 
 export class FieldTypeValidator implements ValidatorInterface {
   private readonly fieldName: string;

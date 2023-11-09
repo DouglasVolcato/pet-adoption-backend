@@ -1,9 +1,9 @@
 import { MinLengthValidator } from "../../../src/validation/validators";
-import {
-  InvalidFieldError,
-  RequiredFieldError,
-} from "../../../src/validation/errors";
 import { FakeData } from "../../test-helpers/fake-data";
+import {
+  RequiredFieldError,
+  InvalidFieldError,
+} from "../../../src/presentation/helpers";
 
 type SutTypes = {
   sut: MinLengthValidator;

@@ -1,7 +1,10 @@
 import { EmailValidationAdapter } from "../../infra/adapters";
 import { ValidatorInterface } from "../../presentation/protocols";
-import { InvalidFieldError, RequiredFieldError } from "../errors";
 import { EmailValidationInterface } from "../protocols";
+import {
+  InvalidFieldError,
+  RequiredFieldError,
+} from "../../presentation/helpers";
 
 export class EmailValidator implements ValidatorInterface {
   private readonly emailValidation: EmailValidationInterface;

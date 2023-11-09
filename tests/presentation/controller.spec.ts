@@ -2,7 +2,7 @@ import { ControllerStub, ValidatorStub } from "../test-helpers/stubs";
 import { ValidatorInterface } from "../../src/presentation/protocols";
 import { RequiredFieldError, ok } from "../../src/presentation/helpers";
 import { FakeData } from "../test-helpers/fake-data";
-import { makeUserDto, makeUserEntity } from "../test-helpers/mocks";
+import { makeUserDto } from "../test-helpers/mocks";
 
 type SutTypes = {
   sut: ControllerStub;

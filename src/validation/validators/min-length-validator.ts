@@ -1,5 +1,8 @@
 import { ValidatorInterface } from "../../presentation/protocols";
-import { InvalidFieldError, RequiredFieldError } from "../errors";
+import {
+  InvalidFieldError,
+  RequiredFieldError,
+} from "../../presentation/helpers";
 
 export class MinLengthValidator implements ValidatorInterface {
   private readonly fieldName: string;

@@ -5,7 +5,7 @@ import { FakeData } from "../../test-helpers/fake-data";
 import {
   InvalidFieldError,
   RequiredFieldError,
-} from "../../../src/validation/errors";
+} from "../../../src/presentation/helpers";
 
 const mockData = () => ({
   email_field: FakeData.email(),

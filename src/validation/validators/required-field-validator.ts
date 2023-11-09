@@ -1,5 +1,5 @@
 import { ValidatorInterface } from "../../presentation/protocols";
-import { RequiredFieldError } from "../errors";
+import { RequiredFieldError } from "../../presentation/helpers";
 
 export class RequiredFieldValidator implements ValidatorInterface {
   private readonly fieldName: string;

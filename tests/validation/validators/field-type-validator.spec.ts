@@ -2,9 +2,9 @@ import { FieldTypeValidator } from "../../../src/validation/validators";
 import { FieldTypeEnum } from "../../../src/validation/protocols";
 import { FakeData } from "../../test-helpers/fake-data";
 import {
-  InvalidFieldError,
   RequiredFieldError,
-} from "../../../src/validation/errors";
+  InvalidFieldError,
+} from "../../../src/presentation/helpers";
 
 type SutTypes = {
   sut: FieldTypeValidator;

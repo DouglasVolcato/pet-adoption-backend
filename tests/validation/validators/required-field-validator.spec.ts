@@ -1,5 +1,5 @@
+import { RequiredFieldError } from "../../../src/presentation/helpers";
 import { RequiredFieldValidator } from "../../../src/validation/validators";
-import { RequiredFieldError } from "../../../src/validation/errors";
 import { FakeData } from "../../test-helpers/fake-data";
 
 const mockData = () => ({
