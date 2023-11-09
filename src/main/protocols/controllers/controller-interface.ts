@@ -1,8 +1,6 @@
-export type ControllerInputType<T> = T;
-export type ControllerOutputType<T> = {
-  statusCode: number;
-  data: T;
-};
+import { ControllerInputType } from "./controller-input-type";
+import { ControllerOutputType } from "./controller-output-type";
+
 export interface ControllerInterface {
   execute(
     request: ControllerInputType<any>
