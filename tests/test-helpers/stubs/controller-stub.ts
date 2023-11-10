@@ -16,7 +16,7 @@ export class ControllerStub extends Controller implements ControllerInterface {
   public async perform(
     request: ControllerInputType<any>
   ): Promise<ControllerOutputType<any | Error>> {
-    return ok("any_data");
+    return ok({});
   }
 
   protected getValidation(): ValidatorInterface {

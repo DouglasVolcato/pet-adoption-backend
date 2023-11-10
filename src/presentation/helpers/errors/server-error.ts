@@ -1,6 +1,6 @@
 export class ServerError extends Error {
-  public constructor() {
-    super(`Server error`);
+  public constructor(message: string = "Server error") {
+    super(message);
     this.name = "ServerError";
   }
 }
