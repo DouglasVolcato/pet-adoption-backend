@@ -1,13 +1,11 @@
-import {
-  RequiredFieldError,
-  ServerError,
-  ok,
-} from "../../../src/presentation/helpers";
 import { ValidatorInterface } from "../../../src/presentation/protocols";
 import { FakeData } from "../../test-helpers/fake-data";
 import { makeRandonData } from "../../test-helpers/mocks";
-import { ValidatorStub } from "../../test-helpers/stubs";
-import { MiddlewareStub } from "../../test-helpers/stubs/middleware-stub";
+import { ValidatorStub, MiddlewareStub } from "../../test-helpers/stubs";
+import {
+  RequiredFieldError,
+  ServerError,
+} from "../../../src/presentation/helpers";
 
 type SutTypes = {
   sut: MiddlewareStub;
