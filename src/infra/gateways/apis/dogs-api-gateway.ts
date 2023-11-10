@@ -1,7 +1,11 @@
 import { EnvVars } from "../../../main/config";
-import { ClientGetRequestSenderInterface } from "../../protocols";
+import {
+  ClientGetRequestSenderInterface,
+  GatewayInterface,
+  GatewayOutputType,
+} from "../../protocols";
 
-export class DogsApiGateway {
+export class DogsApiGateway implements GatewayInterface {
   private readonly clientGetRequestSender: ClientGetRequestSenderInterface;
   private readonly url: string;
   private readonly headers: any;
@@ -12,7 +16,7 @@ export class DogsApiGateway {
     this.clientGetRequestSender = clientGetRequestSender;
   }
 
-  public async request(): Promise<any[]> {
+  public async request(): GatewayOutputType<any> {
     const data = await this.clientGetRequestSender.get(this.url, this.headers);
     return data;
   }
