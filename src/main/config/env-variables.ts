@@ -16,6 +16,16 @@ export const EnvVars = {
     return process.env.PORT || "7777";
   },
 
+  CATS_API_TOKEN: function (): string {
+    this.config();
+    return process.env.CATS_API_TOKEN || "";
+  },
+
+  DOGS_API_TOKEN: function (): string {
+    this.config();
+    return process.env.DOGS_API_TOKEN || "";
+  },
+
   config: function (): void {
     try {
       dotenv.config();
