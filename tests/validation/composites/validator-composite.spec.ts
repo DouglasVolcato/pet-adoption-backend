@@ -43,6 +43,15 @@ describe("ValidatorComposite", () => {
     expect(error).toEqual(new Error(errorMessage));
   });
 
+  it("Validate should throw if a validator throws", () => {
+    const { sut, validatorStub1 } = makeSut();
+    jest.spyOn(validatorStub1, "validate").mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    expect(() => sut.validate(makeRandonData())).toThrow();
+  });
+
   it("Validate should return undefined", () => {
     const { sut } = makeSut();
     const output = sut.validate(makeRandonData());
