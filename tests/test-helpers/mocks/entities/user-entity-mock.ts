@@ -6,4 +6,5 @@ export const makeUserEntity = (): UserEntityType => ({
   name: FakeData.word(),
   email: FakeData.email(),
   password: FakeData.password(),
+  admin: FakeData.bool(),
 });

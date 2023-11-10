@@ -8,4 +8,5 @@ export const FakeData = {
   numberInteger: (): number => faker.number.int(),
   phrase: (): string => faker.lorem.words(),
   url: (): string => faker.internet.url(),
+  bool: (): boolean => faker.datatype.boolean(),
 };
