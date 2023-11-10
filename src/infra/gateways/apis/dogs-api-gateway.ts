@@ -1,3 +1,4 @@
+import { PetEntityType } from "../../../domain/protocols";
 import { EnvVars } from "../../../main/config";
 import {
   ClientGetRequestSenderInterface,
@@ -16,7 +17,7 @@ export class DogsApiGateway implements GatewayInterface {
     this.clientGetRequestSender = clientGetRequestSender;
   }
 
-  public async request(): GatewayOutputType<any> {
+  public async request(): GatewayOutputType<PetEntityType[]> {
     const data = await this.clientGetRequestSender.get(this.url, this.headers);
     return data;
   }
