@@ -7,4 +7,5 @@ export const FakeData = {
   id: (): string => faker.string.uuid(),
   numberInteger: (): number => faker.number.int(),
   phrase: (): string => faker.lorem.words(),
+  url: (): string => faker.internet.url(),
 };
