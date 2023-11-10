@@ -1,6 +1,6 @@
 import { sign, verify } from "jsonwebtoken";
 import { JwtAdapter } from "../../../src/infra/adapters";
-import { makeUserEntity } from "../../test-helpers/mocks";
+import { makeRandonData } from "../../test-helpers/mocks";
 import { FakeData } from "../../test-helpers/fake-data";
 
 jest.mock("jsonwebtoken", () => ({
@@ -25,7 +25,7 @@ describe("JwtAdapter", () => {
   describe("GenerateToken", () => {
     it("Should call jwt library", () => {
       const { sut } = makeSut();
-      sut.generateToken({ id: makeUserEntity().id }, FakeData.word());
+      sut.generateToken({ id: makeRandonData().id }, FakeData.word());
 
       expect(sign).toHaveBeenCalledTimes(1);
     });
@@ -35,7 +35,7 @@ describe("JwtAdapter", () => {
       const token = FakeData.id();
       (sign as jest.Mock).mockReturnValueOnce(token);
       const generatedToken = sut.generateToken(
-        { id: makeUserEntity().id },
+        { id: makeRandonData().id },
         FakeData.word()
       );
 
@@ -49,7 +49,7 @@ describe("JwtAdapter", () => {
       });
 
       expect(() =>
-        sut.generateToken({ id: makeUserEntity().id }, FakeData.word())
+        sut.generateToken({ id: makeRandonData().id }, FakeData.word())
       ).toThrow();
     });
   });
@@ -65,7 +65,7 @@ describe("JwtAdapter", () => {
 
     it("Should return the decrypted data", () => {
       const { sut } = makeSut();
-      const data = { id: makeUserEntity().id };
+      const data = { id: makeRandonData().id };
       (verify as jest.Mock).mockReturnValueOnce(data);
       const generatedToken = sut.decryptToken(FakeData.id(), FakeData.word());
 

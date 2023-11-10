@@ -1,7 +1,7 @@
 import { ValidatorInterface } from "../../../src/presentation/protocols";
 import { ValidatorComposite } from "../../../src/validation/composites";
 import { FakeData } from "../../test-helpers/fake-data";
-import { makeUserDto } from "../../test-helpers/mocks";
+import { makeRandonData } from "../../test-helpers/mocks";
 import { ValidatorStub } from "../../test-helpers/stubs";
 
 type SutTypes = {
@@ -23,7 +23,7 @@ describe("ValidatorComposite", () => {
     const { sut, validatorStub1, validatorStub2 } = makeSut();
     const validatorStubSpy1 = jest.spyOn(validatorStub1, "validate");
     const validatorStubSpy2 = jest.spyOn(validatorStub2, "validate");
-    const data = makeUserDto();
+    const data = makeRandonData();
     sut.validate(data);
 
     expect(validatorStubSpy1).toHaveBeenCalledTimes(1);
@@ -38,14 +38,14 @@ describe("ValidatorComposite", () => {
     jest
       .spyOn(validatorStub1, "validate")
       .mockReturnValueOnce(new Error(errorMessage));
-    const error = sut.validate(makeUserDto());
+    const error = sut.validate(makeRandonData());
 
     expect(error).toEqual(new Error(errorMessage));
   });
 
   it("Validate should return undefined", () => {
     const { sut } = makeSut();
-    const output = sut.validate(makeUserDto());
+    const output = sut.validate(makeRandonData());
 
     expect(output).toBeUndefined();
   });

@@ -2,7 +2,7 @@ import { ControllerStub, ValidatorStub } from "../../test-helpers/stubs";
 import { ValidatorInterface } from "../../../src/presentation/protocols";
 import { RequiredFieldError, ok } from "../../../src/presentation/helpers";
 import { FakeData } from "../../test-helpers/fake-data";
-import { makeUserDto } from "../../test-helpers/mocks";
+import { makeRandonData } from "../../test-helpers/mocks";
 
 type SutTypes = {
   sut: ControllerStub;
@@ -20,7 +20,7 @@ describe("Controller", () => {
   it("Should call validator with correct values", async () => {
     const { sut, validatorStub } = makeSut();
     const compositeSpy = jest.spyOn(validatorStub, "validate");
-    const data = makeUserDto();
+    const data = makeRandonData();
     await sut.execute(data);
 
     expect(compositeSpy).toHaveBeenCalledTimes(1);
@@ -33,7 +33,7 @@ describe("Controller", () => {
     jest
       .spyOn(validatorStub, "validate")
       .mockReturnValueOnce(new RequiredFieldError(fieldName));
-    const response = await sut.execute(makeUserDto());
+    const response = await sut.execute(makeRandonData());
 
     expect(response.statusCode).toBe(400);
     expect(response.data).toEqual(new RequiredFieldError(fieldName));
@@ -42,7 +42,7 @@ describe("Controller", () => {
   it("Should call perform with correct values", async () => {
     const { sut } = makeSut();
     const performSpy = jest.spyOn(sut, "perform");
-    const data = makeUserDto();
+    const data = makeRandonData();
     await sut.execute(data);
 
     expect(performSpy).toHaveBeenCalledTimes(1);
@@ -51,7 +51,7 @@ describe("Controller", () => {
 
   it("Should return what perform returns", async () => {
     const { sut } = makeSut();
-    const data = makeUserDto();
+    const data = makeRandonData();
     jest.spyOn(sut, "perform").mockReturnValueOnce(Promise.resolve(ok(data)));
     const response = await sut.execute(data);
 
@@ -65,7 +65,7 @@ describe("Controller", () => {
       throw new Error(errorMessage);
     });
 
-    const response = await sut.execute(makeUserDto());
+    const response = await sut.execute(makeRandonData());
 
     expect(response.statusCode).toBe(500);
     expect(response.data).toEqual(new Error(errorMessage));
@@ -78,7 +78,7 @@ describe("Controller", () => {
       throw new Error(errorMessage);
     });
 
-    const response = await sut.execute(makeUserDto());
+    const response = await sut.execute(makeRandonData());
 
     expect(response.statusCode).toBe(500);
     expect(response.data).toEqual(new Error(errorMessage));
