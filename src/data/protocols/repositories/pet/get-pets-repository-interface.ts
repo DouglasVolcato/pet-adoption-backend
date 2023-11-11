@@ -1,19 +1,7 @@
-import {
-  PetCategoryEnum,
-  PetEntityType,
-  PetStatusEnum,
-} from "../../../../domain/protocols";
+import { PetEntityType } from "../../../../domain/protocols";
+import { SearchPetsUseCase } from "../../../../domain/protocols/usecases/search-pets-usecase";
 
-export type PetSearchParamsType = {
-  limit: number;
-  offset: number;
-  term?: string;
-  name?: string;
-  description?: string;
-  category?: PetCategoryEnum;
-  status?: PetStatusEnum;
-  createdAt?: string;
-};
+export type PetSearchParamsType = SearchPetsUseCase.Input;
 
 export interface GetPetsRepositoryInterface {
   getPets(searchParams: PetSearchParamsType): Promise<PetEntityType[]>;
