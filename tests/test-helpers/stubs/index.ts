@@ -9,3 +9,5 @@ export * from "./get-user-by-email-repository-stub";
 export * from "./get-user-by-id-repository-stub";
 export * from "./id-generator-stub";
 export * from "./password-hasher-stub";
+export * from "./password-hash-checker-stub";
+export * from "./token-generator-stub";
