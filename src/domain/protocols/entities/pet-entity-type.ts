@@ -4,16 +4,16 @@ export enum PetAdoptionEnum {
 }
 
 export enum PetCategoryEnum {
-  FREE = "free",
-  ADOPTED = "adopted",
+  CATS = "cats",
+  DOGS = "dogs",
 }
 
 export type PetEntityType = {
   id: string;
   name: string;
+  description: string;
   image: string;
-  category: string;
   createdAt: string;
-  description: PetCategoryEnum;
+  category: PetCategoryEnum;
   status: PetAdoptionEnum;
 };
