@@ -2,7 +2,7 @@ import {
   PasswordHashCheckerInterface,
   TokenGeneratorInterface,
 } from "../../../src/data/protocols";
-import { LoginService } from "../../../src/data/services/login-service";
+import { LoginService } from "../../../src/data/services";
 import { EnvVars } from "../../../src/main/config";
 import { InvalidFieldError } from "../../../src/presentation/helpers";
 import { FakeData } from "../../test-helpers/fake-data";
