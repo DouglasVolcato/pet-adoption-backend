@@ -1,7 +1,6 @@
 import { makeUserDto, makeUserEntity } from "../../test-helpers/mocks";
 import { InvalidFieldError } from "../../../src/presentation/helpers";
 import { CreateUserService } from "../../../src/data/services";
-import { UserDtoType } from "../../../src/domain/protocols";
 import {
   CreateUserRepositoryInterface,
   GetUserByEmailRepositoryInterface,
@@ -101,7 +100,7 @@ describe("CreateUserService", () => {
       .mockReturnValueOnce(Promise.resolve(null));
     const repositorySpy = jest.spyOn(createUserRepository, "create");
     const userEntity = makeUserEntity();
-    const userDto: UserDtoType = {
+    const userDto = {
       name: userEntity.name,
       email: userEntity.email,
       password: "not_hashed_password",
