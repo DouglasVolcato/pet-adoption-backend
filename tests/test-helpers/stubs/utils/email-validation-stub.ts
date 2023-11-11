@@ -1,4 +1,4 @@
-import { EmailValidationInterface } from "../../../src/validation/protocols";
+import { EmailValidationInterface } from "../../../../src/validation/protocols";
 
 export class EmailValidationStub implements EmailValidationInterface {
   public isEmail(value: string): boolean {

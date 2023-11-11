@@ -1,12 +1,12 @@
-import { Middleware } from "../../../src/presentation/middlewares/middleware";
-import { ok } from "../../../src/presentation/helpers";
-import { ValidatorInterface } from "../../../src/presentation/protocols";
-import { ValidatorStub } from "./validator-stub";
+import { Middleware } from "../../../../src/presentation/middlewares/middleware";
+import { ok } from "../../../../src/presentation/helpers";
+import { ValidatorInterface } from "../../../../src/presentation/protocols";
+import { ValidatorStub } from "./../validators/validator-stub";
 import {
   MiddlewareInputType,
   MiddlewareInterface,
   MiddlewareOutputType,
-} from "../../../src/main/protocols";
+} from "../../../../src/main/protocols";
 
 export class MiddlewareStub extends Middleware implements MiddlewareInterface {
   public constructor() {

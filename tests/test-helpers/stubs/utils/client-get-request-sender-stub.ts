@@ -1,5 +1,5 @@
-import { ClientGetRequestSenderInterface } from "../../../src/infra/protocols";
-import { makeRandonData } from "../mocks";
+import { ClientGetRequestSenderInterface } from "../../../../src/infra/protocols";
+import { makeRandonData } from "../../mocks";
 
 export class ClientGetRequestSenderStub
   implements ClientGetRequestSenderInterface

@@ -1,5 +1,5 @@
-import { IdGeneratorInterface } from "../../../src/data/protocols";
-import { FakeData } from "../fake-data";
+import { IdGeneratorInterface } from "../../../../src/data/protocols";
+import { FakeData } from "../../fake-data";
 
 export class IdGeneratorStub implements IdGeneratorInterface {
   public generateId(): string {

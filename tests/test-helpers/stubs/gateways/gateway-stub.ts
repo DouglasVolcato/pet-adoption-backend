@@ -1,8 +1,8 @@
-import { makeRandonData } from "../mocks";
+import { makeRandonData } from "../../mocks";
 import {
   GatewayInterface,
   GatewayOutputType,
-} from "../../../src/apis/protocols";
+} from "../../../../src/apis/protocols";
 
 export class GatewayStub implements GatewayInterface {
   public async request(): GatewayOutputType<any> {
