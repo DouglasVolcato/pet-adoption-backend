@@ -4,3 +4,8 @@ export * from "./controller-stub";
 export * from "./client-get-request-sender-stub";
 export * from "./gateway-stub";
 export * from "./middleware-stub";
+export * from "./create-user-repository-stub";
+export * from "./get-user-by-email-repository-stub";
+export * from "./get-user-by-id-repository-stub";
+export * from "./id-generator-stub";
+export * from "./password-hasher-stub";
