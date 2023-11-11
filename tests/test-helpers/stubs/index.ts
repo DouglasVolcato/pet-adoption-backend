@@ -5,6 +5,7 @@ export * from "./middlewares/middleware-stub";
 export * from "./repositories/user/create-user-repository-stub";
 export * from "./repositories/user/get-user-by-email-repository-stub";
 export * from "./repositories/user/get-user-by-id-repository-stub";
+export * from "./repositories/pet/update-pet-status-repository-stub";
 export * from "./utils/email-validation-stub";
 export * from "./utils/client-get-request-sender-stub";
 export * from "./utils/id-generator-stub";
