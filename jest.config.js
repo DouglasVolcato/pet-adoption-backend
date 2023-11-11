@@ -2,5 +2,17 @@
 module.exports = {
   preset: "ts-jest",
   testEnvironment: "node",
-  collectCoverageFrom: ["./tests/**/*.spec.{js,ts}"],
+  testRegex: ".*\\.spec\\.ts$",
+  coverageDirectory: "coverage",
+  testEnvironment: "node",
+  preset: "@shelf/jest-mongodb",
+  transform: {
+    "^.+\\.(t|j)s$": "ts-jest",
+  },
+  collectCoverageFrom: [
+    "**/src/**/*.(t|j)s",
+    "!**/*index.(t|j)s",
+    "!**/*test.(t|j)s",
+    "!**/dist/**",
+  ],
 };
