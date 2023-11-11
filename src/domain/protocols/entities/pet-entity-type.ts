@@ -1,13 +1,19 @@
-export enum PetAdoptionStatus {
+export enum PetAdoptionEnum {
+  FREE = "free",
+  ADOPTED = "adopted",
+}
+
+export enum PetCategoryEnum {
   FREE = "free",
   ADOPTED = "adopted",
 }
 
 export type PetEntityType = {
+  id: string;
   name: string;
-  description: string;
   image: string;
   category: string;
   createdAt: string;
-  status: PetAdoptionStatus;
+  description: PetCategoryEnum;
+  status: PetAdoptionEnum;
 };
