@@ -9,4 +9,5 @@ export const FakeData = {
   phrase: (): string => faker.lorem.words(),
   url: (): string => faker.internet.url(),
   bool: (): boolean => faker.datatype.boolean(),
+  date: (): string => faker.date.anytime().toDateString(),
 };
