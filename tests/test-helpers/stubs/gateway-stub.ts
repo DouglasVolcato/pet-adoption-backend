@@ -2,7 +2,7 @@ import { makeRandonData } from "../mocks";
 import {
   GatewayInterface,
   GatewayOutputType,
-} from "../../../src/infra/protocols";
+} from "../../../src/apis/protocols";
 
 export class GatewayStub implements GatewayInterface {
   public async request(): GatewayOutputType<any> {

@@ -1,6 +1,6 @@
 import { ClientGetRequestSenderInterface } from "../../../../src/infra/protocols";
 import { ClientGetRequestSenderStub } from "../../../test-helpers/stubs";
-import { DogsApiGateway } from "../../../../src/infra/gateways";
+import { DogsApiGateway } from "../../../../src/apis/gateways";
 import { makeRandonData } from "../../../test-helpers/mocks";
 import { FakeData } from "../../../test-helpers/fake-data";
 

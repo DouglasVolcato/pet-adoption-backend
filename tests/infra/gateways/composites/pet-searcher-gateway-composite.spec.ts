@@ -1,5 +1,5 @@
-import { PetSearchGatewayComposite } from "../../../../src/infra/gateways";
-import { GatewayInterface } from "../../../../src/infra/protocols";
+import { PetSearchGatewayComposite } from "../../../../src/apis/composites";
+import { GatewayInterface } from "../../../../src/apis/protocols";
 import { makeRandonData } from "../../../test-helpers/mocks";
 import { GatewayStub } from "../../../test-helpers/stubs";
 
