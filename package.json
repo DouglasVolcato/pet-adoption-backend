@@ -4,6 +4,7 @@
   "description": "",
   "main": "dist/src/main/index.js",
   "scripts": {
+    "start": "tsc && node dist/src/main/index.js",
     "test": "jest --passWithNoTests -c jest.config.js",
     "test-unit": "jest --passWithNoTests -c jest.unit.config.js",
     "test-integration": "jest --passWithNoTests -c jest.integration.config.js",
