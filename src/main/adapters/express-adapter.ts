@@ -49,6 +49,7 @@ export class ExpressAdapter {
           const response = await controller.execute({
             ...req.body,
             ...req.params,
+            ...req.query,
             ...req.headers,
           });
           const isError = response.data instanceof Error;
