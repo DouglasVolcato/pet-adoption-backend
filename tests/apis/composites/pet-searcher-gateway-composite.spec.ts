@@ -1,7 +1,7 @@
-import { PetSearchGatewayComposite } from "../../../../src/apis/composites";
-import { GatewayInterface } from "../../../../src/apis/protocols";
-import { makePetEntity, makeRandonData } from "../../../test-helpers/mocks";
-import { GatewayStub } from "../../../test-helpers/stubs";
+import { makeRandonData, makePetEntity } from "../../test-helpers/mocks";
+import { PetSearchGatewayComposite } from "../../../src/apis/composites";
+import { GatewayInterface } from "../../../src/apis/protocols";
+import { GatewayStub } from "../../test-helpers/stubs";
 
 type SutTypes = {
   sut: PetSearchGatewayComposite;

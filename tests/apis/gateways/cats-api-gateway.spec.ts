@@ -1,8 +1,8 @@
-import { ClientGetRequestSenderInterface } from "../../../../src/infra/protocols";
-import { ClientGetRequestSenderStub } from "../../../test-helpers/stubs";
-import { makeRandonData } from "../../../test-helpers/mocks";
-import { CatsApiGateway } from "../../../../src/apis/gateways";
-import { FakeData } from "../../../test-helpers/fake-data";
+import { ClientGetRequestSenderInterface } from "../../../src/infra/protocols";
+import { ClientGetRequestSenderStub } from "../../test-helpers/stubs";
+import { makeRandonData } from "../../test-helpers/mocks";
+import { CatsApiGateway } from "../../../src/apis/gateways";
+import { FakeData } from "../../test-helpers/fake-data";
 
 type SutTypes = {
   sut: CatsApiGateway;
