@@ -1,6 +1,6 @@
 import { PetSearchGatewayComposite } from "../../../../src/apis/composites";
 import { GatewayInterface } from "../../../../src/apis/protocols";
-import { makeRandonData } from "../../../test-helpers/mocks";
+import { makePetEntity, makeRandonData } from "../../../test-helpers/mocks";
 import { GatewayStub } from "../../../test-helpers/stubs";
 
 type SutTypes = {
@@ -50,6 +50,32 @@ describe("GatewayComposite", () => {
     const output = await sut.request();
 
     expect(output).toEqual([...data1, ...data2]);
+  });
+
+  it("SearchPets method should call request method", async () => {
+    const { sut } = makeSut();
+    const requestSpy = jest.spyOn(sut, "request");
+    await sut.searchPets();
+
+    expect(requestSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it("SearchPets should return what request returns", async () => {
+    const { sut } = makeSut();
+    const foundPets = [makePetEntity(), makePetEntity()];
+    jest.spyOn(sut, "request").mockReturnValueOnce(Promise.resolve(foundPets));
+    const output = await sut.searchPets();
+
+    expect(output).toEqual(foundPets);
+  });
+
+  it("SearchPets should throw if request throws", async () => {
+    const { sut } = makeSut();
+    jest.spyOn(sut, "request").mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    expect(async () => await sut.request()).rejects.toThrow();
   });
 
   it("Constructor should set the gateways property", async () => {

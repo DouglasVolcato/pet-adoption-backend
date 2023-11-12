@@ -1,7 +1,10 @@
+import { PetSearcherInterface } from "../../data/protocols";
 import { PetEntityType } from "../../domain/protocols";
 import { GatewayInterface, GatewayOutputType } from "../protocols";
 
-export class PetSearchGatewayComposite implements GatewayInterface {
+export class PetSearchGatewayComposite
+  implements GatewayInterface, PetSearcherInterface
+{
   private gateways!: GatewayInterface[];
 
   public constructor(gateways: GatewayInterface[]) {
@@ -14,5 +17,9 @@ export class PetSearchGatewayComposite implements GatewayInterface {
     );
     const results: PetEntityType[][] = await Promise.all(gatewayPromises);
     return results.flat();
+  }
+
+  public async searchPets(): Promise<PetEntityType[]> {
+    return await this.request();
   }
 }
