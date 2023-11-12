@@ -45,7 +45,7 @@ export class ExpressAdapter {
         route.url,
         this.setUpMiddleware(route.middleware),
         async (req: Request, res: Response) => {
-          const controller: ControllerInterface = route.controller;
+          const controller: ControllerInterface = route.controller();
           const response = await controller.execute({
             ...req.body,
             ...req.params,
@@ -61,7 +61,9 @@ export class ExpressAdapter {
     }
   }
 
-  private setUpMiddleware(middleware: MiddlewareInterface | undefined): any {
+  private setUpMiddleware(
+    middleware: (() => MiddlewareInterface) | undefined
+  ): any {
     if (!middleware) {
       return async function setUpMiddleware(
         req: Request,
@@ -76,7 +78,7 @@ export class ExpressAdapter {
         res: Response,
         next: NextFunction
       ) {
-        const output = await middleware.execute({
+        const output = await middleware().execute({
           ...req.body,
           ...req.params,
           ...req.headers,

@@ -12,6 +12,6 @@ export enum RouteEnumType {
 export type RouteDtoType = {
   type: RouteEnumType;
   url: string;
-  controller: ControllerInterface;
-  middleware?: MiddlewareInterface;
+  controller: () => ControllerInterface;
+  middleware?: () => MiddlewareInterface;
 };
