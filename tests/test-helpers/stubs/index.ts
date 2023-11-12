@@ -14,5 +14,6 @@ export * from "./utils/client-get-request-sender-stub";
 export * from "./utils/id-generator-stub";
 export * from "./utils/password-hasher-stub";
 export * from "./utils/password-hash-checker-stub";
+export * from "./utils/token-decrypter-stub";
 export * from "./utils/token-generator-stub";
 export * from "./utils/pet-searcher-stub";
