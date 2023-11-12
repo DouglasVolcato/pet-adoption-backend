@@ -1,4 +1,4 @@
-import { CreateUserUseCase } from "../../../domain/protocols";
+import { CreateUserUseCase, UserEntityType } from "../../../domain/protocols";
 import {
   ControllerInputType,
   ControllerOutputType,
@@ -6,5 +6,5 @@ import {
 
 export namespace CreateUserControllerTypes {
   export type Input = ControllerInputType<CreateUserUseCase.Input>;
-  export type Output = Promise<ControllerOutputType<CreateUserUseCase.Input>>;
+  export type Output = Promise<ControllerOutputType<Error | UserEntityType>>;
 }
