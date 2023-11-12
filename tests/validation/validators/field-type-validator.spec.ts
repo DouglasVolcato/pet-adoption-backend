@@ -58,8 +58,6 @@ describe("FieldTypeValidator", () => {
     expect(error).toBeInstanceOf(InvalidFieldError);
   });
 
-  //////
-
   test("Should return undefined if field is a string and should be a string", () => {
     const { sut } = makeSut("valid_field", FieldTypeEnum.STRING);
     const error = sut.validate({ valid_field: FakeData.word() });
@@ -70,6 +68,15 @@ describe("FieldTypeValidator", () => {
   test("Should return undefined if field is a number and should be a number", () => {
     const { sut } = makeSut("valid_field", FieldTypeEnum.NUMBER);
     const error = sut.validate({ valid_field: FakeData.numberInteger() });
+
+    expect(error).toBeUndefined();
+  });
+
+  test("Should return undefined if field is a number as a string and should be a number", () => {
+    const { sut } = makeSut("valid_field", FieldTypeEnum.NUMBER);
+    const error = sut.validate({
+      valid_field: FakeData.numberInteger().toString(),
+    });
 
     expect(error).toBeUndefined();
   });
