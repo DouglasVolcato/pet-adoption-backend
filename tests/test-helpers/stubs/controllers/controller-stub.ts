@@ -1,7 +1,7 @@
-import { Controller } from "../../../../src/presentation/controllers/controller";
-import { ok } from "../../../../src/presentation/helpers";
 import { ValidatorInterface } from "../../../../src/presentation/protocols";
+import { Controller } from "../../../../src/presentation/controllers";
 import { ValidatorStub } from "./../validators/validator-stub";
+import { ok } from "../../../../src/presentation/helpers";
 import {
   ControllerInputType,
   ControllerInterface,

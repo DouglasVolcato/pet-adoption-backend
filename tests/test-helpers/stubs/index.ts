@@ -18,3 +18,8 @@ export * from "./utils/token-decrypter-stub";
 export * from "./utils/token-generator-stub";
 export * from "./utils/pet-searcher-stub";
 export * from "./services/get-user-by-token-service-stub";
+export * from "./services/chage-pet-status-service-stub";
+export * from "./services/create-user-service-stub";
+export * from "./services/index-pets-service-stub";
+export * from "./services/login-service-stub";
+export * from "./services/search-pets-service-stub";
