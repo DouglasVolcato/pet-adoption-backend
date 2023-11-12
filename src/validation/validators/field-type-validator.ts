@@ -21,6 +21,8 @@ export class FieldTypeValidator implements ValidatorInterface {
 
     if (this.fieldType === FieldTypeEnum.ARRAY) {
       return this.handleArrayValidation(data);
+    } else if (this.fieldType === FieldTypeEnum.NUMBER) {
+      return this.handleANumberValidation(data);
     } else {
       return this.handleFieldTypeValidation(data);
     }
@@ -35,6 +37,17 @@ export class FieldTypeValidator implements ValidatorInterface {
       return new InvalidFieldError(this.fieldName);
     }
     return undefined;
+  }
+
+  private handleANumberValidation(data: any): Error | undefined {
+    if (
+      typeof data[this.fieldName] === FieldTypeEnum.NUMBER ||
+      (typeof data[this.fieldName] === FieldTypeEnum.STRING &&
+        !isNaN(data[this.fieldName]))
+    ) {
+      return undefined;
+    }
+    return new InvalidFieldError(this.fieldName);
   }
 
   private handleFieldTypeValidation(data: any): Error | undefined {
