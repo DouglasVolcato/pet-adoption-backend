@@ -132,7 +132,7 @@
                 <mxCell id="29" value="PetSearcherInterface" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0050ef;fontColor=#ffffff;strokeColor=#001DBC;fontSize=20;fontStyle=1" parent="1" vertex="1">
                     <mxGeometry x="455" y="1610" width="325" height="90" as="geometry"/>
                 </mxCell>
-                <mxCell id="30" value="CreatePetRepositoryIntereface" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0050ef;fontColor=#ffffff;strokeColor=#001DBC;fontSize=20;fontStyle=1" parent="1" vertex="1">
+                <mxCell id="30" value="CreatePetsRepositoryIntereface" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0050ef;fontColor=#ffffff;strokeColor=#001DBC;fontSize=20;fontStyle=1" parent="1" vertex="1">
                     <mxGeometry x="445" y="1380" width="350" height="90" as="geometry"/>
                 </mxCell>
                 <mxCell id="207" style="edgeStyle=none;html=1;exitX=0;exitY=0.25;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;dashed=1;strokeWidth=4;" parent="1" source="39" target="99" edge="1">
