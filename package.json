@@ -4,9 +4,11 @@
   "description": "",
   "main": "dist/src/main/index.js",
   "scripts": {
-    "test": "jest --passWithNoTests",
-    "test-watch": "jest --passWithNoTests --watch --onlyChanged",
-    "test-coverage": "jest --passWithNoTests --coverage"
+    "test": "jest --passWithNoTests -c jest.config.js",
+    "test-unit": "jest --passWithNoTests -c jest.unit.config.js",
+    "test-integration": "jest --passWithNoTests -c jest.integration.config.js",
+    "test-watch": "jest --passWithNoTests --watch --onlyChanged -c jest.config.js",
+    "test-coverage": "jest --passWithNoTests --coverag -c jest.config.jse"
   },
   "keywords": [],
   "author": "Douglas Volcato",

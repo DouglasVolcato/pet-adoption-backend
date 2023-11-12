@@ -2,7 +2,7 @@
 module.exports = {
   preset: "ts-jest",
   testEnvironment: "node",
-  testRegex: ".*\\.spec\\.ts$",
+  testRegex: ".*\\.(spec|test)\\.ts$",
   coverageDirectory: "coverage",
   testEnvironment: "node",
   preset: "@shelf/jest-mongodb",
