@@ -17,3 +17,4 @@ export * from "./utils/password-hash-checker-stub";
 export * from "./utils/token-decrypter-stub";
 export * from "./utils/token-generator-stub";
 export * from "./utils/pet-searcher-stub";
+export * from "./services/get-user-by-token-service-stub";
