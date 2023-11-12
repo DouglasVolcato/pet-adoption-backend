@@ -21,11 +21,11 @@ export class CreateUserController
   protected async perform(
     request: CreateUserControllerTypes.Input
   ): CreateUserControllerTypes.Output {
-    const updatedPet = await this.createUserService.execute(request);
-    if (updatedPet instanceof Error) {
-      return badRequest(updatedPet);
+    const createdUser = await this.createUserService.execute(request);
+    if (createdUser instanceof Error) {
+      return badRequest(createdUser);
     }
-    return ok(updatedPet);
+    return ok(createdUser);
   }
 
   protected getValidation(): ValidatorInterface {
