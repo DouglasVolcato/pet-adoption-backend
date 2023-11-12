@@ -1,7 +1,7 @@
 import {
   UserEntityType,
   PetStatusEnum,
-  ChangePetStatusUseCase,
+  PetEntityType,
 } from "../../../domain/protocols";
 import {
   ControllerInputType,
@@ -14,7 +14,6 @@ export namespace ChangePetStatusControllerTypes {
     petId: string;
     newStatus: PetStatusEnum;
   }>;
-  export type Output = Promise<
-    ControllerOutputType<ChangePetStatusUseCase.Output>
-  >;
+
+  export type Output = Promise<ControllerOutputType<PetEntityType | Error>>;
 }

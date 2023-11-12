@@ -1,4 +1,4 @@
-import { LoginUseCase } from "../../../domain/protocols";
+import { LoginUseCase, UserEntityType } from "../../../domain/protocols";
 import {
   ControllerInputType,
   ControllerOutputType,
@@ -6,5 +6,7 @@ import {
 
 export namespace LoginControllerTypes {
   export type Input = ControllerInputType<LoginUseCase.Input>;
-  export type Output = ControllerOutputType<LoginUseCase.Output>;
+  export type Output = Promise<
+    ControllerOutputType<Error | { user: UserEntityType; token: string }>
+  >;
 }

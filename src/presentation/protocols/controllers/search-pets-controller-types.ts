@@ -1,4 +1,4 @@
-import { SearchPetsUseCase } from "../../../domain/protocols";
+import { PetEntityType, SearchPetsUseCase } from "../../../domain/protocols";
 import {
   ControllerInputType,
   ControllerOutputType,
@@ -6,5 +6,5 @@ import {
 
 export namespace SearchPetsControllerTypes {
   export type Input = ControllerInputType<SearchPetsUseCase.Input>;
-  export type Output = ControllerOutputType<SearchPetsUseCase.Output>;
+  export type Output = Promise<ControllerOutputType<PetEntityType[]>>;
 }
