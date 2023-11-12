@@ -1,3 +1,3 @@
 export interface TokenDecrypterInterface {
-  decryptToken(token: string, secret: string): string | undefined;
+  decryptToken(token: string, secret: string): any | undefined;
 }

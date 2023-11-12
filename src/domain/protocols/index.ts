@@ -5,3 +5,4 @@ export * from "./usecases/change-pet-status-usecase";
 export * from "./usecases/login-usecase";
 export * from "./usecases/search-pets-usecase";
 export * from "./usecases/index-pets-usecase";
+export * from "./usecases/get-user-by-token-usecase";
