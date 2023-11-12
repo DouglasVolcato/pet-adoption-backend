@@ -1,7 +1,7 @@
 import { PetEntityType, PetStatusEnum } from "../../../../domain/protocols";
 import { PetMongoDbModel } from "../models/pet-mongodb-model";
 import {
-  CreatePetRepositoryIntereface,
+  CreatePetsRepositoryIntereface,
   UpdatePetStatusRepositoryIntereface,
   DeleteAllPetsRepositoryIntereface,
   GetPetsRepositoryInterface,
@@ -10,15 +10,14 @@ import {
 
 export class PetMongoDBRepository
   implements
-    CreatePetRepositoryIntereface,
+    CreatePetsRepositoryIntereface,
     UpdatePetStatusRepositoryIntereface,
     DeleteAllPetsRepositoryIntereface,
     GetPetsRepositoryInterface
 {
-  public async create(petEntity: PetEntityType): Promise<PetEntityType> {
-    const newPet = new PetMongoDbModel(petEntity);
-    await newPet.save();
-    return this.map(newPet.toObject());
+  public async createPets(pets: PetEntityType[]): Promise<void> {
+    await PetMongoDbModel.insertMany(pets);
+    return;
   }
 
   public async updateStatus(

@@ -1,11 +1,11 @@
-import mongoose from "mongoose";
-import { makePetEntity } from "../../../test-helpers/mocks";
 import { PetSearchParamsType } from "../../../../src/data/protocols";
+import { makePetEntity } from "../../../test-helpers/mocks";
+import { FakeData } from "../../../test-helpers/fake-data";
+import mongoose from "mongoose";
 import {
   PetCategoryEnum,
   PetStatusEnum,
 } from "../../../../src/domain/protocols";
-import { FakeData } from "../../../test-helpers/fake-data";
 import {
   MongoDBConnector,
   PetMongoDBRepository,
@@ -37,42 +37,51 @@ describe("PetMongoDBRepository", () => {
     await PetMongoDbModel.deleteMany({});
   });
 
-  describe("create", () => {
+  describe("createPets", () => {
     it("Should store the new pet in the database", async () => {
       const { sut } = makeSut();
-      const petEntity = makePetEntity();
-      await sut.create(petEntity);
-      const foundPet = await PetMongoDbModel.findOne({
-        id: petEntity.id,
+      const petEntity1 = makePetEntity();
+      const petEntity2 = makePetEntity();
+      await sut.createPets([petEntity1, petEntity2]);
+      const foundPet1 = await PetMongoDbModel.findOne({
+        id: petEntity1.id,
+      }).exec();
+      const foundPet2 = await PetMongoDbModel.findOne({
+        id: petEntity2.id,
       }).exec();
 
-      expect(foundPet.id).toEqual(petEntity.id);
-      expect(foundPet.name).toEqual(petEntity.name);
-      expect(foundPet.description).toEqual(petEntity.description);
-      expect(foundPet.image).toEqual(petEntity.image);
-      expect(foundPet.createdAt).toEqual(petEntity.createdAt);
-      expect(foundPet.category).toEqual(petEntity.category);
-      expect(foundPet.status).toEqual(petEntity.status);
+      expect(foundPet1.id).toEqual(petEntity1.id);
+      expect(foundPet1.name).toEqual(petEntity1.name);
+      expect(foundPet1.description).toEqual(petEntity1.description);
+      expect(foundPet1.image).toEqual(petEntity1.image);
+      expect(foundPet1.createdAt).toEqual(petEntity1.createdAt);
+      expect(foundPet1.category).toEqual(petEntity1.category);
+      expect(foundPet1.status).toEqual(petEntity1.status);
+      expect(foundPet2.id).toEqual(petEntity2.id);
+      expect(foundPet2.name).toEqual(petEntity2.name);
+      expect(foundPet2.description).toEqual(petEntity2.description);
+      expect(foundPet2.image).toEqual(petEntity2.image);
+      expect(foundPet2.createdAt).toEqual(petEntity2.createdAt);
+      expect(foundPet2.category).toEqual(petEntity2.category);
+      expect(foundPet2.status).toEqual(petEntity2.status);
     });
 
-    it("Should return the created pet", async () => {
+    it("Should return undefined", async () => {
       const { sut } = makeSut();
       const petEntity = makePetEntity();
-      const createdPet = await sut.create(petEntity);
+      const createdPet = await sut.createPets([petEntity]);
 
-      expect(createdPet).toEqual(petEntity);
+      expect(createdPet).toBeUndefined();
     });
 
     it("Should throw if mongoose throws", async () => {
       const { sut } = makeSut();
-      jest
-        .spyOn(PetMongoDbModel.prototype, "save")
-        .mockImplementationOnce(() => {
-          throw new Error();
-        });
+      jest.spyOn(PetMongoDbModel, "insertMany").mockImplementationOnce(() => {
+        throw new Error();
+      });
 
       await expect(
-        async () => await sut.create(makePetEntity())
+        async () => await sut.createPets([makePetEntity()])
       ).rejects.toThrow();
     });
   });
@@ -82,7 +91,7 @@ describe("PetMongoDBRepository", () => {
       const { sut } = makeSut();
       const petEntity = makePetEntity();
       petEntity.status = PetStatusEnum.FREE;
-      await sut.create(petEntity);
+      await sut.createPets([petEntity]);
       const newStatus: PetStatusEnum = PetStatusEnum.ADOPTED;
       const updatedPet = await sut.updateStatus(petEntity.id, newStatus);
 
@@ -118,9 +127,7 @@ describe("PetMongoDBRepository", () => {
       const { sut } = makeSut();
       const petEntity1 = makePetEntity();
       const petEntity2 = makePetEntity();
-      await sut.create(petEntity1);
-      await sut.create(petEntity2);
-
+      await sut.createPets([petEntity1, petEntity2]);
       await sut.deleteAllPets();
 
       const pets = await PetMongoDbModel.find({});
@@ -140,12 +147,14 @@ describe("PetMongoDBRepository", () => {
   describe("getPets", () => {
     it("Should return all pets when no search parameters are provided", async () => {
       const { sut } = makeSut();
-      await sut.create(makePetEntity());
-      await sut.create(makePetEntity());
-      await sut.create(makePetEntity());
-      await sut.create(makePetEntity());
-      await sut.create(makePetEntity());
-      await sut.create(makePetEntity());
+      await sut.createPets([
+        makePetEntity(),
+        makePetEntity(),
+        makePetEntity(),
+        makePetEntity(),
+        makePetEntity(),
+        makePetEntity(),
+      ]);
       const searchParams: PetSearchParamsType = {
         limit: 3,
         offset: 0,
@@ -157,26 +166,28 @@ describe("PetMongoDBRepository", () => {
 
     it("Should return pets matching the provided term in name or description", async () => {
       const { sut } = makeSut();
-      await sut.create({
-        ...makePetEntity(),
-        name: "Cat",
-        description: "Cute animal",
-      });
-      await sut.create({
-        ...makePetEntity(),
-        name: "Dog",
-        description: "Friendly dog",
-      });
-      await sut.create({
-        ...makePetEntity(),
-        name: "Any pet",
-        description: "Cute cat",
-      });
-      await sut.create({
-        ...makePetEntity(),
-        name: "Any pet",
-        description: "Cute dog",
-      });
+      await sut.createPets([
+        {
+          ...makePetEntity(),
+          name: "Cat",
+          description: "Cute animal",
+        },
+        {
+          ...makePetEntity(),
+          name: "Dog",
+          description: "Friendly dog",
+        },
+        {
+          ...makePetEntity(),
+          name: "Any pet",
+          description: "Cute cat",
+        },
+        {
+          ...makePetEntity(),
+          name: "Any pet",
+          description: "Cute dog",
+        },
+      ]);
       const searchParams: PetSearchParamsType = {
         limit: 10,
         offset: 0,
@@ -191,8 +202,7 @@ describe("PetMongoDBRepository", () => {
       const { sut } = makeSut();
       const petEntity1 = { ...makePetEntity(), category: PetCategoryEnum.CATS };
       const petEntity2 = { ...makePetEntity(), category: PetCategoryEnum.DOGS };
-      await sut.create(petEntity1);
-      await sut.create(petEntity2);
+      await sut.createPets([petEntity1, petEntity2]);
       const searchParams: PetSearchParamsType = {
         limit: 10,
         offset: 0,
@@ -208,8 +218,7 @@ describe("PetMongoDBRepository", () => {
       const { sut } = makeSut();
       const petEntity1 = { ...makePetEntity(), status: PetStatusEnum.FREE };
       const petEntity2 = { ...makePetEntity(), status: PetStatusEnum.ADOPTED };
-      await sut.create(petEntity1);
-      await sut.create(petEntity2);
+      await sut.createPets([petEntity1, petEntity2]);
       const searchParams: PetSearchParamsType = {
         limit: 10,
         offset: 0,
@@ -225,9 +234,7 @@ describe("PetMongoDBRepository", () => {
       const { sut } = makeSut();
       const petEntity1 = makePetEntity();
       const petEntity2 = makePetEntity();
-      await sut.create(petEntity1);
-      await sut.create(petEntity2);
-
+      await sut.createPets([petEntity1, petEntity2]);
       const searchParams: PetSearchParamsType = {
         limit: 10,
         offset: 0,
@@ -242,7 +249,7 @@ describe("PetMongoDBRepository", () => {
     it("Should return an empty array if no pets match the search criteria", async () => {
       const { sut } = makeSut();
       const petEntity = makePetEntity();
-      await sut.create(petEntity);
+      await sut.createPets([petEntity]);
       const searchParams: PetSearchParamsType = {
         limit: 10,
         offset: 0,
