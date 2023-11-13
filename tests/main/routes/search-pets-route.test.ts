@@ -21,7 +21,7 @@ const databaseConnector = new MongoDBConnector();
 let frameworkAdapter: ExpressAdapter;
 let app: Express;
 
-describe("Index pets route", () => {
+describe("Search pets route", () => {
   beforeAll(async () => {
     frameworkAdapter = new ExpressAdapter(PetRoutes, Number(EnvVars.PORT()));
     app = (frameworkAdapter as any).app;
@@ -35,21 +35,20 @@ describe("Index pets route", () => {
   });
 
   beforeEach(async () => {
+    await PetMongoDbModel.deleteMany({});
     await UserMongoDbModel.deleteMany({});
   });
 
   describe(`GET ${route}`, () => {
     test("Should return the found pets", async () => {
-      const pet1 = makePetEntity();
-      const pet2 = makePetEntity();
-      await savePetInDatabase(pet1);
-      await savePetInDatabase(pet2);
+      const pet = makePetEntity();
+      await savePetInDatabase(pet);
       const response = await request(app)
         .get(`${route}?limit=10&offset=0`)
         .send();
 
       expect(response.statusCode).toBe(200);
-      expect(response.body).toEqual([pet1, pet2]);
+      expect(response.body).toEqual([pet]);
     });
 
     test("Should return bad request if limit is not provided", async () => {
