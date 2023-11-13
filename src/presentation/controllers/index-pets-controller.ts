@@ -1,4 +1,4 @@
-import { CreateUserControllerTypes, ValidatorInterface } from "../protocols";
+import { IndexPetsControllerTypes, ValidatorInterface } from "../protocols";
 import { ValidatorComposite } from "../../validation/composites";
 import { IndexPetsUseCase } from "../../domain/protocols";
 import { ControllerInterface } from "../../main/protocols";
@@ -17,8 +17,8 @@ export class IndexPetsController
   }
 
   protected async perform(
-    request: CreateUserControllerTypes.Input
-  ): CreateUserControllerTypes.Output {
+    request: IndexPetsControllerTypes.Input
+  ): IndexPetsControllerTypes.Output {
     await this.indexPetsService.execute();
     return ok({});
   }
