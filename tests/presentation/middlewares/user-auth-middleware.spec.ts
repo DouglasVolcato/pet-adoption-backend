@@ -36,7 +36,7 @@ describe("UserAuthMiddleware", () => {
     await sut.execute(request);
 
     expect(getUserByTokenServiceSpy).toHaveBeenCalledTimes(1);
-    expect(getUserByTokenServiceSpy).toHaveBeenCalledWith(token);
+    expect(getUserByTokenServiceSpy).toHaveBeenCalledWith({ token });
   });
 
   it("Should return the found user", async () => {
