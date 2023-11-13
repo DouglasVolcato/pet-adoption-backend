@@ -22,9 +22,9 @@ export class UserAuthMiddleware
     if (!authorizationSplit || authorizationSplit[0] !== "Bearer") {
       return new UnauthorizedError();
     }
-    const foundUser = await this.getUserByTokenService.execute(
-      authorizationSplit[1]
-    );
+    const foundUser = await this.getUserByTokenService.execute({
+      token: authorizationSplit[1],
+    });
     if (!foundUser || foundUser instanceof Error) {
       return new UnauthorizedError();
     }
