@@ -43,7 +43,7 @@ describe("Create user route", () => {
 
       expect(response.statusCode).toBe(200);
       expect(response.body.id).toBeDefined();
-      expect(response.body.password).toBeDefined();
+      expect(response.body.password).not.toBeDefined();
       expect(response.body.name).toBe(requestBody.name);
       expect(response.body.email).toBe(requestBody.email);
     });

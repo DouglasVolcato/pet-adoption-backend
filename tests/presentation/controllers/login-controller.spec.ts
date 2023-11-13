@@ -60,7 +60,7 @@ describe("ChangePetStatusController", () => {
     expect(loginServiceSpy).toHaveBeenCalledWith(request);
   });
 
-  test("Should return ok", async () => {
+  test("Should return the logged user without the password1", async () => {
     const { sut, loginService } = makeSut();
     const authData = { user: makeUserEntity(), token: FakeData.word() };
     jest
@@ -68,7 +68,17 @@ describe("ChangePetStatusController", () => {
       .mockReturnValueOnce(Promise.resolve(authData));
     const output = await sut.execute(makeValidRequest());
 
-    expect(output).toEqual(ok(authData));
+    expect(output).toEqual(
+      ok({
+        token: authData.token,
+        user: {
+          id: authData.user.id,
+          email: authData.user.email,
+          admin: authData.user.admin,
+          name: authData.user.name,
+        },
+      })
+    );
   });
 
   test("Should return a bad request if LoginService returns an error", async () => {

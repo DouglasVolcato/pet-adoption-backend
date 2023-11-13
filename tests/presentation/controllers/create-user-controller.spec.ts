@@ -44,7 +44,7 @@ describe("CreateUserController", () => {
     ]);
   });
 
-  test("Should a bad request if validator return an error", async () => {
+  test("Should return a bad request if validator return an error", async () => {
     const { sut } = makeSut();
     const error = new Error(FakeData.phrase());
     jest.spyOn((sut as any).validator, "validate").mockReturnValueOnce(error);
@@ -63,15 +63,22 @@ describe("CreateUserController", () => {
     expect(createUserServiceSpy).toHaveBeenCalledWith(request);
   });
 
-  test("Should return ok", async () => {
+  test("Should return the created user without the password", async () => {
     const { sut, createUserService } = makeSut();
-    const cratedUser = makeUserEntity();
+    const createdUser = makeUserEntity();
     jest
       .spyOn(createUserService, "execute")
-      .mockReturnValueOnce(Promise.resolve(cratedUser));
+      .mockReturnValueOnce(Promise.resolve(createdUser));
     const output = await sut.execute(makeValidRequest());
 
-    expect(output).toEqual(ok(cratedUser));
+    expect(output).toEqual(
+      ok({
+        id: createdUser.id,
+        email: createdUser.email,
+        admin: createdUser.admin,
+        name: createdUser.name,
+      })
+    );
   });
 
   test("Should return a bad request if CreateUserService returns an error", async () => {

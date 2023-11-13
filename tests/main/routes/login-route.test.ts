@@ -58,7 +58,7 @@ describe("Login route", () => {
       expect(response.statusCode).toBe(200);
       expect(response.body.token).toBeDefined();
       expect(response.body.user.id).toBeDefined();
-      expect(response.body.user.password).toBeDefined();
+      expect(response.body.user.password).not.toBeDefined();
       expect(response.body.user.name).toBe(userData.name);
       expect(response.body.user.email).toBe(userData.email);
     });
