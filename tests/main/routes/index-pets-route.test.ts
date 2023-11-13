@@ -10,6 +10,7 @@ import { Express } from "express";
 import request from "supertest";
 import {
   MongoDBConnector,
+  PetMongoDbModel,
   UserMongoDbModel,
 } from "../../../src/infra/databases";
 
@@ -55,6 +56,7 @@ describe("Index pets route", () => {
   });
 
   beforeEach(async () => {
+    await PetMongoDbModel.deleteMany({});
     await UserMongoDbModel.deleteMany({});
   });
 
