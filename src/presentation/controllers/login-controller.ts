@@ -22,7 +22,15 @@ export class LoginController extends Controller implements ControllerInterface {
     if (output instanceof Error) {
       return badRequest(output);
     }
-    return ok(output);
+    return ok({
+      token: output.token,
+      user: {
+        id: output.user.id,
+        name: output.user.name,
+        email: output.user.email,
+        admin: output.user.admin,
+      },
+    });
   }
 
   protected getValidation(): ValidatorInterface {

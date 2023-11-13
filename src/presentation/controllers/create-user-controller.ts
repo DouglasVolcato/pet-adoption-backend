@@ -25,7 +25,12 @@ export class CreateUserController
     if (createdUser instanceof Error) {
       return badRequest(createdUser);
     }
-    return ok(createdUser);
+    return ok({
+      id: createdUser.id,
+      name: createdUser.name,
+      email: createdUser.email,
+      admin: createdUser.admin,
+    });
   }
 
   protected getValidation(): ValidatorInterface {
