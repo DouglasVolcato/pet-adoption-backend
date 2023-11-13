@@ -85,11 +85,11 @@ export class ExpressAdapter {
           ...req.headers,
         });
         if (output instanceof ServerError) {
-          res.status(500).json(output.message);
+          res.status(500).json({ error: output.message });
           return;
         }
         if (output instanceof Error) {
-          res.status(401).json(output.message);
+          res.status(401).json({ error: output.message });
           return;
         }
         req.body = { ...req.body, ...output };
