@@ -13,11 +13,13 @@ import {
   UserMongoDbModel,
 } from "../../../src/infra/databases";
 
-const makeAuthUser = async (): Promise<{
+const makeAuthUser = async (
+  admin = true
+): Promise<{
   user: UserEntityType;
   token: string;
 }> => {
-  const user = makeUserEntity();
+  const user = { ...makeUserEntity(), admin: true };
   await saveUserInDatabase(user);
   const token = getAuthToken(user);
   return { user, token };
@@ -67,7 +69,7 @@ describe("Index pets route", () => {
       expect(response.statusCode).toBe(200);
     });
 
-    test("Should return 400 if token is in invalid format", async () => {
+    test("Should return 401 if token is in invalid format", async () => {
       const { token } = await makeAuthUser();
       const response = await request(app)
         .post(route)
@@ -78,7 +80,7 @@ describe("Index pets route", () => {
       expect(response.body.error).toEqual(new UnauthorizedError().message);
     });
 
-    test("Should return 400 if token is invalid", async () => {
+    test("Should return 401 if token is invalid", async () => {
       const response = await request(app)
         .post(route)
         .set("authorization", `Bearer ${FakeData.word()}`)
