@@ -1,5 +1,7 @@
 import express, { Express, NextFunction, Request, Response } from "express";
 import { ServerError } from "../../presentation/helpers";
+import * as swaggerUi from "swagger-ui-express";
+import { swaggerDocs } from "../docs";
 import bodyParser from "body-parser";
 import cors from "cors";
 import {
@@ -21,6 +23,7 @@ export class ExpressAdapter {
     this.app = express();
     this.setupMiddlewares();
     this.setupRoutes();
+    this.setupDocumentation();
   }
 
   public async start(): Promise<void> {
@@ -96,5 +99,9 @@ export class ExpressAdapter {
         next();
       };
     }
+  }
+
+  private setupDocumentation(): void {
+    this.app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
   }
 }
