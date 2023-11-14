@@ -1,5 +1,7 @@
+import { GatewayOutputType } from "../../../apis/protocols";
 import { PetEntityType } from "../../../domain/protocols";
 
 export interface PetSearcherInterface {
-  searchPets(): Promise<PetEntityType[]>;
+  request(): GatewayOutputType<PetEntityType[]>;
+  requestFinished(): boolean;
 }

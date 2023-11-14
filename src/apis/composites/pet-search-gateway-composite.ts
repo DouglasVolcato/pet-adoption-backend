@@ -1,7 +1,10 @@
 import { GatewayInterface, GatewayOutputType } from "../protocols";
 import { PetEntityType } from "../../domain/protocols";
+import { PetSearcherInterface } from "../../data/protocols";
 
-export class PetSearchGatewayComposite implements GatewayInterface {
+export class PetSearchGatewayComposite
+  implements GatewayInterface, PetSearcherInterface
+{
   private gateways!: GatewayInterface[];
 
   public constructor(gateways: GatewayInterface[]) {
