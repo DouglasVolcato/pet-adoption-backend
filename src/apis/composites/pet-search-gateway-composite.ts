@@ -1,10 +1,7 @@
-import { PetSearcherInterface } from "../../data/protocols";
-import { PetEntityType } from "../../domain/protocols";
 import { GatewayInterface, GatewayOutputType } from "../protocols";
+import { PetEntityType } from "../../domain/protocols";
 
-export class PetSearchGatewayComposite
-  implements GatewayInterface, PetSearcherInterface
-{
+export class PetSearchGatewayComposite implements GatewayInterface {
   private gateways!: GatewayInterface[];
 
   public constructor(gateways: GatewayInterface[]) {
@@ -12,14 +9,20 @@ export class PetSearchGatewayComposite
   }
 
   public async request(): GatewayOutputType<PetEntityType[]> {
-    const gatewayPromises: Promise<PetEntityType[]>[] = this.gateways.map(
-      (gateway) => gateway.request()
-    );
-    const results: PetEntityType[][] = await Promise.all(gatewayPromises);
-    return results.flat();
+    for (const gateway of this.gateways) {
+      if (gateway.requestFinished()) continue;
+      const pets: PetEntityType[] = await gateway.request();
+      return pets;
+    }
+    return [];
   }
 
-  public async searchPets(): Promise<PetEntityType[]> {
-    return await this.request();
+  public requestFinished(): boolean {
+    for (const gateway of this.gateways) {
+      if (!gateway.requestFinished()) {
+        return false;
+      }
+    }
+    return true;
   }
 }
