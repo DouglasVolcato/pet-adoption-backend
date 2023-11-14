@@ -1,13 +1,18 @@
-import { badRequest, ok, serverError } from "../../../src/presentation/helpers";
 import { IndexPetsControllerTypes } from "../../../src/presentation/protocols";
 import { IndexPetsController } from "../../../src/presentation/controllers";
 import { IndexPetsUseCase } from "../../../src/domain/protocols";
 import { IndexPetsServiceStub } from "../../test-helpers/stubs";
 import { makeUserEntity } from "../../test-helpers/mocks";
 import { FakeData } from "../../test-helpers/fake-data";
+import {
+  badRequest,
+  ok,
+  serverError,
+  unauthorized,
+} from "../../../src/presentation/helpers";
 
-const makeValidRequest = (): IndexPetsControllerTypes.Input => ({
-  user: makeUserEntity(),
+const makeValidRequest = (admin = true): IndexPetsControllerTypes.Input => ({
+  user: { ...makeUserEntity(), admin },
 });
 
 type SutTypes = {
@@ -37,6 +42,13 @@ describe("IndexPetsController", () => {
     const output = await sut.execute(makeValidRequest());
 
     expect(output).toEqual(badRequest(error));
+  });
+
+  test("Should an unauthorized error if user is not an admin", async () => {
+    const { sut } = makeSut();
+    const output = await sut.execute(makeValidRequest(false));
+
+    expect(output).toEqual(unauthorized());
   });
 
   test("Should call IndexPetsService with correct values", async () => {

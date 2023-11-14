@@ -1,10 +1,15 @@
 import { ChangePetStatusControllerTypes } from "../../../src/presentation/protocols";
 import { ChangePetStatusController } from "../../../src/presentation/controllers";
-import { badRequest, ok, serverError } from "../../../src/presentation/helpers";
 import { makePetEntity, makeUserEntity } from "../../test-helpers/mocks";
 import { ChangePetStatusServiceStub } from "../../test-helpers/stubs";
 import { FieldTypeEnum } from "../../../src/validation/protocols";
 import { FakeData } from "../../test-helpers/fake-data";
+import {
+  badRequest,
+  ok,
+  serverError,
+  unauthorized,
+} from "../../../src/presentation/helpers";
 import {
   ChangePetStatusUseCase,
   PetStatusEnum,
@@ -14,10 +19,12 @@ import {
   RequiredFieldValidator,
 } from "../../../src/validation/validators";
 
-const makeValidRequest = (): ChangePetStatusControllerTypes.Input => ({
+const makeValidRequest = (
+  admin = true
+): ChangePetStatusControllerTypes.Input => ({
   newStatus: PetStatusEnum.ADOPTED,
   petId: FakeData.id(),
-  user: makeUserEntity(),
+  user: { ...makeUserEntity(), admin },
 });
 
 type SutTypes = {
@@ -52,6 +59,13 @@ describe("ChangePetStatusController", () => {
     const output = await sut.execute(makeValidRequest());
 
     expect(output).toEqual(badRequest(error));
+  });
+
+  test("Should an unauthorized error if user is not an admin", async () => {
+    const { sut } = makeSut();
+    const output = await sut.execute(makeValidRequest(false));
+
+    expect(output).toEqual(unauthorized());
   });
 
   test("Should call ChangePetStatusService with correct values", async () => {
