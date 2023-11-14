@@ -46,7 +46,10 @@ describe("CatsApiGateway", () => {
     await sut.request();
 
     expect(requestSenderSpy).toHaveBeenCalledTimes(1);
-    expect(requestSenderSpy).toHaveBeenCalledWith(url, headers);
+    expect(requestSenderSpy).toHaveBeenCalledWith(
+      `${url}?limit=80&order=Asc&page=0`,
+      headers
+    );
   });
 
   test("Should return the ClientGetRequestSender data formated", async () => {
