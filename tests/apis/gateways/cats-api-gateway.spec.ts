@@ -1,8 +1,22 @@
+import { PetCategoryEnum, PetStatusEnum } from "../../../src/domain/protocols";
 import { ClientGetRequestSenderInterface } from "../../../src/infra/protocols";
 import { ClientGetRequestSenderStub } from "../../test-helpers/stubs";
 import { makeRandonData } from "../../test-helpers/mocks";
-import { CatsApiGateway } from "../../../src/apis/gateways";
 import { FakeData } from "../../test-helpers/fake-data";
+import {
+  CatsApiGateway,
+  CatsApiResponseType,
+} from "../../../src/apis/gateways";
+
+const makePetApi = (): CatsApiResponseType => ({
+  breeds: [
+    {
+      name: FakeData.word(),
+      description: FakeData.phrase(),
+    },
+  ],
+  url: FakeData.url(),
+});
 
 type SutTypes = {
   sut: CatsApiGateway;
@@ -25,6 +39,9 @@ describe("CatsApiGateway", () => {
     const headers = makeRandonData();
     const url = FakeData.url();
     const { sut, clientGetRequestSender } = makesut(url, headers);
+    jest
+      .spyOn(clientGetRequestSender, "get")
+      .mockReturnValueOnce(Promise.resolve([makePetApi()]));
     const requestSenderSpy = jest.spyOn(clientGetRequestSender, "get");
     await sut.request();
 
@@ -32,15 +49,44 @@ describe("CatsApiGateway", () => {
     expect(requestSenderSpy).toHaveBeenCalledWith(url, headers);
   });
 
-  test("Should return what ClientGetRequestSender returns", async () => {
+  test("Should return the ClientGetRequestSender data formated", async () => {
     const { sut, clientGetRequestSender } = makesut();
-    const data = makeRandonData();
+    const apiResponse = [makePetApi(), makePetApi()];
     jest
       .spyOn(clientGetRequestSender, "get")
-      .mockReturnValueOnce(Promise.resolve(data));
+      .mockReturnValueOnce(Promise.resolve(apiResponse));
     const output = await sut.request();
 
-    expect(output).toEqual(data);
+    expect(output).toEqual(
+      apiResponse.map((pet) => {
+        return {
+          id: "",
+          createdAt: "",
+          image: pet.url,
+          name: pet.breeds.length > 0 ? pet.breeds[0].name : "Cat",
+          description: pet.breeds.length > 0 ? pet.breeds[0].description : "",
+          category: PetCategoryEnum.CATS,
+          status: PetStatusEnum.FREE,
+        };
+      })
+    );
+  });
+
+  test("Should increment page counter", async () => {
+    const { sut, clientGetRequestSender } = makesut();
+    jest
+      .spyOn(clientGetRequestSender, "get")
+      .mockReturnValueOnce(Promise.resolve([makePetApi()]));
+    await sut.request();
+
+    expect((sut as any).page).toBe(1);
+  });
+
+  test("Should return true if page counter is 100", async () => {
+    const { sut } = makesut();
+    (sut as any).page = 100;
+
+    expect(sut.requestFinished()).toBeTruthy();
   });
 
   test("Should throw if ClientGetRequestSender throws", async () => {
