@@ -8,5 +8,5 @@ export namespace IndexPetsControllerTypes {
   export type Input = ControllerInputType<{
     user: UserEntityType;
   }>;
-  export type Output = Promise<ControllerOutputType<void>>;
+  export type Output = Promise<ControllerOutputType<Error | void>>;
 }

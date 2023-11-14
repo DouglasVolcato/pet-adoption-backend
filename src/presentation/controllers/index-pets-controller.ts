@@ -2,8 +2,8 @@ import { IndexPetsControllerTypes, ValidatorInterface } from "../protocols";
 import { ValidatorComposite } from "../../validation/composites";
 import { IndexPetsUseCase } from "../../domain/protocols";
 import { ControllerInterface } from "../../main/protocols";
+import { ok, unauthorized } from "../helpers";
 import { Controller } from "./controller";
-import { ok } from "../helpers";
 
 export class IndexPetsController
   extends Controller
@@ -19,6 +19,9 @@ export class IndexPetsController
   protected async perform(
     request: IndexPetsControllerTypes.Input
   ): IndexPetsControllerTypes.Output {
+    if (!request.user.admin) {
+      return unauthorized();
+    }
     await this.indexPetsService.execute();
     return ok({});
   }

@@ -1,9 +1,9 @@
 import { ChangePetStatusUseCase } from "../../domain/protocols";
 import { ValidatorComposite } from "../../validation/composites";
+import { badRequest, ok, unauthorized } from "../helpers";
 import { FieldTypeEnum } from "../../validation/protocols";
 import { ValidatorBuilder } from "../../validation/builders";
 import { ControllerInterface } from "../../main/protocols";
-import { badRequest, ok } from "../helpers";
 import { Controller } from "./controller";
 import {
   ChangePetStatusControllerTypes,
@@ -24,6 +24,9 @@ export class ChangePetStatusController
   protected async perform(
     request: ChangePetStatusControllerTypes.Input
   ): ChangePetStatusControllerTypes.Output {
+    if (!request.user.admin) {
+      return unauthorized();
+    }
     const { petId, newStatus } = request;
     const updatedPet = await this.changePetStatusService.execute({
       petId,
