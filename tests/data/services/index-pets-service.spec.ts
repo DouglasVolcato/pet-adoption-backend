@@ -44,11 +44,12 @@ const makeSut = (): SutTypes => {
 
 describe("indexPetsService", () => {
   test("Should call DeleteAllPetsRepository", async () => {
-    const { sut, deleteAllPetsRepository } = makeSut();
+    const { sut, deleteAllPetsRepository, petSearcher } = makeSut();
     const deleteAllPetsRepositorySpy = jest.spyOn(
       deleteAllPetsRepository,
       "deleteAllPets"
     );
+    jest.spyOn(petSearcher, "requestFinished").mockReturnValueOnce(true);
     await sut.execute();
 
     expect(deleteAllPetsRepositorySpy).toHaveBeenCalledTimes(1);
@@ -67,15 +68,33 @@ describe("indexPetsService", () => {
 
   test("Should call PetSearcher", async () => {
     const { sut, petSearcher } = makeSut();
-    const petSearcherSpy = jest.spyOn(petSearcher, "searchPets");
+    const petSearcherSpy = jest.spyOn(petSearcher, "request");
+    jest
+      .spyOn(petSearcher, "requestFinished")
+      .mockReturnValueOnce(false)
+      .mockReturnValueOnce(true);
     await sut.execute();
 
     expect(petSearcherSpy).toHaveBeenCalledTimes(1);
   });
 
+  test("Should stop calling PetSearcher when the request has finished", async () => {
+    const { sut, petSearcher } = makeSut();
+    const petSearcherSpy = jest.spyOn(petSearcher, "request");
+    jest
+      .spyOn(petSearcher, "requestFinished")
+      .mockReturnValueOnce(false)
+      .mockReturnValueOnce(false)
+      .mockReturnValueOnce(false)
+      .mockReturnValueOnce(true);
+    await sut.execute();
+
+    expect(petSearcherSpy).toHaveBeenCalledTimes(3);
+  });
+
   test("Should throw if PetSearcher throws", async () => {
     const { sut, petSearcher } = makeSut();
-    jest.spyOn(petSearcher, "searchPets").mockImplementationOnce(() => {
+    jest.spyOn(petSearcher, "request").mockImplementationOnce(() => {
       throw new Error();
     });
 
@@ -85,21 +104,26 @@ describe("indexPetsService", () => {
   test("Should call CreatePetsRepository with correct values", async () => {
     const { sut, petSearcher, createPetsRepository, idGenerator } = makeSut();
     const petId = FakeData.id();
+    const creationData = new Date().toISOString().split("T")[0];
     const foundPets = [makePetEntity(), makePetEntity()];
     const createPetsRepositorySpy = jest.spyOn(
       createPetsRepository,
       "createPets"
     );
     jest
-      .spyOn(petSearcher, "searchPets")
+      .spyOn(petSearcher, "request")
       .mockReturnValueOnce(Promise.resolve(foundPets));
     jest.spyOn(idGenerator, "generateId").mockReturnValueOnce(petId);
     jest.spyOn(idGenerator, "generateId").mockReturnValueOnce(petId);
+    jest
+      .spyOn(petSearcher, "requestFinished")
+      .mockReturnValueOnce(false)
+      .mockReturnValueOnce(true);
     await sut.execute();
 
     expect(createPetsRepositorySpy).toHaveBeenCalledTimes(1);
     expect(createPetsRepositorySpy).toHaveBeenCalledWith(
-      foundPets.map((obj) => ({ ...obj, id: petId }))
+      foundPets.map((obj) => ({ ...obj, id: petId, createdAt: creationData }))
     );
   });
 
