@@ -30,7 +30,7 @@ export class DogsApiGateway implements GatewayInterface {
 
   public async request(): GatewayOutputType<PetEntityType[]> {
     const data: DogsApiResponseType[] = await this.clientGetRequestSender.get(
-      this.url,
+      `${this.url}?limit=80&order=Asc&page=${this.page}`,
       this.headers
     );
     this.page++;

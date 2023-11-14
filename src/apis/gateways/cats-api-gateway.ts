@@ -30,7 +30,7 @@ export class CatsApiGateway implements GatewayInterface {
 
   public async request(): GatewayOutputType<PetEntityType[]> {
     const data: CatsApiResponseType[] = await this.clientGetRequestSender.get(
-      this.url,
+      `${this.url}?limit=80&order=Asc&page=${this.page}`,
       this.headers
     );
     this.page++;
