@@ -85,9 +85,16 @@ describe("CatsApiGateway", () => {
     expect((sut as any).page).toBe(1);
   });
 
-  test("Should return true if page counter is 100", async () => {
+  // test("Should return true if page counter is 100", async () => {
+  //   const { sut } = makesut();
+  //   (sut as any).page = 100;
+
+  //   expect(sut.requestFinished()).toBeTruthy();
+  // });
+
+  test("Should return true if page counter is 2", async () => {
     const { sut } = makesut();
-    (sut as any).page = 100;
+    (sut as any).page = 2;
 
     expect(sut.requestFinished()).toBeTruthy();
   });
