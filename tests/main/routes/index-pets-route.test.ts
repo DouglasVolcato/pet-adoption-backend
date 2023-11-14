@@ -20,7 +20,7 @@ const makeAuthUser = async (
   user: UserEntityType;
   token: string;
 }> => {
-  const user = { ...makeUserEntity(), admin: true };
+  const user = { ...makeUserEntity(), admin };
   await saveUserInDatabase(user);
   const token = getAuthToken(user);
   return { user, token };
@@ -86,6 +86,17 @@ describe("Index pets route", () => {
       const response = await request(app)
         .post(route)
         .set("authorization", `Bearer ${FakeData.word()}`)
+        .send();
+
+      expect(response.statusCode).toBe(401);
+      expect(response.body.error).toEqual(new UnauthorizedError().message);
+    }, 10000);
+
+    test("Should return 401 if user is not an admin", async () => {
+      const { token } = await makeAuthUser(false);
+      const response = await request(app)
+        .post(route)
+        .set("authorization", `Bearer ${token}`)
         .send();
 
       expect(response.statusCode).toBe(401);

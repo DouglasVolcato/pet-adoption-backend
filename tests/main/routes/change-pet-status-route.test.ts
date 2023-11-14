@@ -36,7 +36,7 @@ const makeAuthUser = async (
   user: UserEntityType;
   token: string;
 }> => {
-  const user = { ...makeUserEntity(), admin: true };
+  const user = { ...makeUserEntity(), admin };
   await saveUserInDatabase(user);
   const token = getAuthToken(user);
   return { user, token };
@@ -158,6 +158,21 @@ describe("Change pet status route", () => {
 
       expect(response.statusCode).toBe(401);
       expect(response.body.error).toEqual(new UnauthorizedError().message);
+    });
+
+    test("Should return bad request if user is not an admin", async () => {
+      const { token } = await makeAuthUser(false);
+      const requestBody = {
+        petId: FakeData.id(),
+        newStatus: PetStatusEnum.ADOPTED,
+      };
+      const response = await request(app)
+        .put(route)
+        .set("authorization", `Bearer ${token}`)
+        .send(requestBody);
+
+      expect(response.statusCode).toBe(401);
+      expect(response.body.error).toBe(new UnauthorizedError().message);
     });
   });
 });
