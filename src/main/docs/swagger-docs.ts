@@ -25,8 +25,12 @@ export const swaggerDocs = {
               schema: {
                 type: "object",
                 properties: {
-                  email: { type: "string" },
-                  password: { type: "string" },
+                  email: { type: "string", format: "email" },
+                  password: { type: "string", minLength: 6 },
+                },
+                example: {
+                  email: "user@example.com",
+                  password: "password123",
                 },
               },
             },
@@ -46,7 +50,6 @@ export const swaggerDocs = {
                         id: { type: "string" },
                         name: { type: "string" },
                         email: { type: "string" },
-                        password: { type: "string" },
                         admin: { type: "boolean" },
                       },
                     },
@@ -96,8 +99,13 @@ export const swaggerDocs = {
                 type: "object",
                 properties: {
                   name: { type: "string" },
-                  email: { type: "string" },
-                  password: { type: "string" },
+                  email: { type: "string", format: "email" },
+                  password: { type: "string", minLength: 6 },
+                },
+                example: {
+                  name: "John Doe",
+                  email: "john.doe@example.com",
+                  password: "password123",
                 },
               },
             },
@@ -114,7 +122,6 @@ export const swaggerDocs = {
                     id: { type: "string" },
                     name: { type: "string" },
                     email: { type: "string" },
-                    password: { type: "string" },
                     admin: { type: "boolean" },
                   },
                 },
@@ -152,7 +159,7 @@ export const swaggerDocs = {
     },
     "/pet": {
       post: {
-        summary: "Add pet",
+        summary: "Index pets into database",
         security: [{ BearerAuth: [] }],
         responses: {
           "200": {
@@ -206,6 +213,10 @@ export const swaggerDocs = {
                 properties: {
                   petId: { type: "string" },
                   newStatus: { type: "string" },
+                },
+                example: {
+                  petId: "12345",
+                  newStatus: "free",
                 },
               },
             },
@@ -279,41 +290,49 @@ export const swaggerDocs = {
             in: "query",
             name: "limit",
             schema: { type: "number" },
+            example: 10,
           },
           {
             in: "query",
             name: "offset",
             schema: { type: "number" },
+            example: 0,
           },
           {
             in: "query",
             name: "term",
             schema: { type: "string" },
+            example: "friendly",
           },
           {
             in: "query",
             name: "name",
             schema: { type: "string" },
+            example: "Buddy",
           },
           {
             in: "query",
             name: "description",
             schema: { type: "string" },
+            example: "A playful dog",
           },
           {
             in: "query",
             name: "category",
-            schema: { type: "string" },
+            schema: { type: "string", enum: ["cats", "dogs"] },
+            example: "dogs",
           },
           {
             in: "query",
             name: "status",
-            schema: { type: "string" },
+            schema: { type: "string", enum: ["free", "adopted"] },
+            example: "free",
           },
           {
             in: "query",
             name: "createdAt",
             schema: { type: "string" },
+            example: "2023-01-01",
           },
         ],
         responses: {
@@ -322,16 +341,18 @@ export const swaggerDocs = {
             content: {
               "application/json": {
                 schema: {
-                  type: "object",
-                  properties: {
-                    limit: { type: "number" },
-                    offset: { type: "number" },
-                    term: { type: "string" },
-                    name: { type: "string" },
-                    description: { type: "string" },
-                    category: { type: "string" },
-                    status: { type: "string" },
-                    createdAt: { type: "string" },
+                  type: "array",
+                  items: {
+                    type: "object",
+                    properties: {
+                      id: { type: "string" },
+                      name: { type: "string" },
+                      description: { type: "string" },
+                      image: { type: "string" },
+                      createdAt: { type: "string" },
+                      category: { type: "string" },
+                      status: { type: "string" },
+                    },
                   },
                 },
               },
