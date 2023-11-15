@@ -32,6 +32,7 @@ export class IndexPetsService implements IndexPetsUseCase.Service {
         ...pet,
         id: this.idGenerator.generateId(),
         createdAt: new Date().toISOString().split("T")[0],
+        description: pet.description || "",
       }));
       this.idGenerator.generateId();
       await this.createPetsRepository.createPets(petsWithIds);
