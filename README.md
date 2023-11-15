@@ -145,8 +145,6 @@ This will execute unit and integration tests.
   - `limit` (number)
   - `offset` (number)
   - `term` (string)
-  - `name` (string)
-  - `description` (string)
   - `category` (string, "cats" or "dogs")
   - `status` (string, "free" or "adopted")
   - `createdAt` (string)
