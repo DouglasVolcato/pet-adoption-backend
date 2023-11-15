@@ -306,18 +306,6 @@ export const swaggerDocs = {
           },
           {
             in: "query",
-            name: "name",
-            schema: { type: "string" },
-            example: "Buddy",
-          },
-          {
-            in: "query",
-            name: "description",
-            schema: { type: "string" },
-            example: "A playful dog",
-          },
-          {
-            in: "query",
             name: "category",
             schema: { type: "string", enum: ["cats", "dogs"] },
             example: "dogs",
