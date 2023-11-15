@@ -47,6 +47,8 @@ Make sure you have the following software installed on your machine:
    npm install
    ```
 
+4. Fulfill the .env variables
+
 ### Running the Application
 
 Run the following command to start the application:
