@@ -77,7 +77,7 @@ describe("Change pet status route", () => {
   });
 
   describe(`PUT ${route}`, () => {
-    test("Should return the updated pet", async () => {
+    test("Should return 200 with the updated pet", async () => {
       const pet = await makeValidPet(PetStatusEnum.FREE);
       const { token } = await makeAuthUser();
       const requestBody = {
@@ -93,7 +93,7 @@ describe("Change pet status route", () => {
       expect(response.body).toEqual({ ...pet, status: PetStatusEnum.ADOPTED });
     });
 
-    test("Should return bad request if petId was not given", async () => {
+    test("Should return 400 if petId was not given", async () => {
       const { token } = await makeAuthUser();
       const requestBody = {
         newStatus: PetStatusEnum.ADOPTED,
@@ -107,7 +107,7 @@ describe("Change pet status route", () => {
       expect(response.body.error).toBe(new RequiredFieldError("petId").message);
     });
 
-    test("Should return bad request if newStatus was not given", async () => {
+    test("Should return 200 if newStatus was not given", async () => {
       const pet = await makeValidPet(PetStatusEnum.FREE);
       const { token } = await makeAuthUser();
       const requestBody = {
@@ -124,7 +124,7 @@ describe("Change pet status route", () => {
       );
     });
 
-    test("Should return bad request if petId is not valid", async () => {
+    test("Should return 400 if petId is not valid", async () => {
       const { token } = await makeAuthUser();
       const requestBody = {
         petId: FakeData.id(),

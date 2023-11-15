@@ -40,7 +40,7 @@ describe("Search pets route", () => {
   });
 
   describe(`GET ${route}`, () => {
-    test("Should return the found pets", async () => {
+    test("Should return 200 with the found pets", async () => {
       const pet = makePetEntity();
       await savePetInDatabase(pet);
       const response = await request(app)
@@ -51,7 +51,7 @@ describe("Search pets route", () => {
       expect(response.body).toEqual([pet]);
     });
 
-    test("Should return bad request if limit is not provided", async () => {
+    test("Should return 400 if limit is not provided", async () => {
       await savePetInDatabase(makePetEntity());
       const response = await request(app).get(`${route}?offset=0`).send();
 
@@ -59,7 +59,7 @@ describe("Search pets route", () => {
       expect(response.body.error).toBe(new RequiredFieldError("limit").message);
     });
 
-    test("Should return bad request if offset is not provided", async () => {
+    test("Should return 400 if offset is not provided", async () => {
       await savePetInDatabase(makePetEntity());
       const response = await request(app).get(`${route}?limit=10`).send();
 
