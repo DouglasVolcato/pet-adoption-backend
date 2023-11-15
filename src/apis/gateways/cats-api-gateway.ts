@@ -47,6 +47,5 @@ export class CatsApiGateway implements GatewayInterface {
 
   public requestFinished(): boolean {
     return this.page === 2;
-    return this.page === 100;
   }
 }
