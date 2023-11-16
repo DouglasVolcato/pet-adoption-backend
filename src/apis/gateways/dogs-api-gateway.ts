@@ -28,24 +28,22 @@ export class DogsApiGateway implements GatewayInterface {
     this.page = 0;
   }
 
-  public async request(): GatewayOutputType<PetEntityType[]> {
-    const data: DogsApiResponseType[] = await this.clientGetRequestSender.get(
-      `${this.url}?limit=80&order=Asc&page=${this.page}`,
-      this.headers
-    );
-    this.page++;
-    return data.map((pet) => ({
-      id: "",
-      createdAt: "",
-      image: pet.url,
-      name: pet.breeds?.length > 0 ? pet.breeds[0].name : "Dog",
-      description: pet.breeds?.length > 0 ? pet.breeds[0].description : "",
-      category: PetCategoryEnum.DOGS,
-      status: PetStatusEnum.FREE,
-    }));
-  }
-
-  public requestFinished(): boolean {
-    return this.page === 2;
+  public async *request(): GatewayOutputType<PetEntityType[]> {
+    while (this.page <= 1) {
+      const data: DogsApiResponseType[] = await this.clientGetRequestSender.get(
+        `${this.url}?limit=80&order=Asc&page=${this.page}`,
+        this.headers
+      );
+      this.page++;
+      yield data.map((pet) => ({
+        id: "",
+        createdAt: "",
+        image: pet.url,
+        name: pet.breeds?.length > 0 ? pet.breeds[0].name : "Dog",
+        description: pet.breeds?.length > 0 ? pet.breeds[0].description : "",
+        category: PetCategoryEnum.DOGS,
+        status: PetStatusEnum.FREE,
+      }));
+    }
   }
 }
