@@ -1,1 +1,1 @@
-export type GatewayOutputType<T> = Promise<T>;
+export type GatewayOutputType<T> = AsyncGenerator<T>;

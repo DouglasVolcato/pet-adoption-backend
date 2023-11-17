@@ -11,21 +11,11 @@ export class PetSearchGatewayComposite
     this.gateways = gateways;
   }
 
-  public async request(): GatewayOutputType<PetEntityType[]> {
+  public async *request(): GatewayOutputType<PetEntityType[]> {
     for (const gateway of this.gateways) {
-      if (gateway.requestFinished()) continue;
-      const pets: PetEntityType[] = await gateway.request();
-      return pets;
-    }
-    return [];
-  }
-
-  public requestFinished(): boolean {
-    for (const gateway of this.gateways) {
-      if (!gateway.requestFinished()) {
-        return false;
+      for await (const pets of gateway.request()) {
+        yield pets;
       }
     }
-    return true;
   }
 }
