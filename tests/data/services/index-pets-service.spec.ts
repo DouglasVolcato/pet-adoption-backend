@@ -105,4 +105,36 @@ describe("indexPetsService", () => {
       foundPets.map((obj) => ({ ...obj, id: petId, createdAt: creationData }))
     );
   });
+
+  test("Should throw if CreatePetsRepository throws", async () => {
+    const { sut, petSearcher, createPetsRepository } = makeSut();
+    const asyncGeneratorFunction = async function* () {
+      yield [makePetEntity(), makePetEntity()];
+    };
+    jest
+      .spyOn(petSearcher, "request")
+      .mockReturnValueOnce(asyncGeneratorFunction());
+    jest
+      .spyOn(createPetsRepository, "createPets")
+      .mockImplementationOnce(() => {
+        throw new Error();
+      });
+
+    await expect(async () => await sut.execute()).rejects.toThrow();
+  });
+
+  test("Should throw if IdGenerator throws", async () => {
+    const { sut, petSearcher, idGenerator } = makeSut();
+    const asyncGeneratorFunction = async function* () {
+      yield [makePetEntity(), makePetEntity()];
+    };
+    jest
+      .spyOn(petSearcher, "request")
+      .mockReturnValueOnce(asyncGeneratorFunction());
+    jest.spyOn(idGenerator, "generateId").mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    await expect(async () => await sut.execute()).rejects.toThrow();
+  });
 });
