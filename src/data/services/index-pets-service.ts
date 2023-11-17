@@ -26,6 +26,7 @@ export class IndexPetsService implements IndexPetsUseCase.Service {
 
   public async execute(): IndexPetsUseCase.Output {
     await this.deleteAllPetsRepository.deleteAllPets();
+    this.idGenerator.generateId();
     for await (const pets of this.petSearcher.request()) {
       const petsWithIds = pets.map((pet) => ({
         ...pet,
