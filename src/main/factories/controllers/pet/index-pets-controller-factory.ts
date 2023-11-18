@@ -1,11 +1,13 @@
 import { CatsApiGateway, DogsApiGateway } from "../../../../apis/gateways";
 import { PetSearchGatewayComposite } from "../../../../apis/composites";
 import { IndexPetsController } from "../../../../presentation/controllers";
+import { makeDbTransactionControllerDecoratorFactory } from "../..";
 import { AxiosAdapter, UuidAdapter } from "../../../../infra/adapters";
 import { PetMongoDBRepository } from "../../../../infra/databases";
 import { IndexPetsService } from "../../../../data/services";
+import { ControllerInterface } from "../../../protocols";
 
-export function makeIndexPetsControllerFactory(): IndexPetsController {
+export function makeIndexPetsControllerFactory(): ControllerInterface {
   const deleteAllPetsRepository = new PetMongoDBRepository();
   const clientGetRequestSender = new AxiosAdapter();
   const catsApiGateway = new CatsApiGateway(clientGetRequestSender);
@@ -22,5 +24,6 @@ export function makeIndexPetsControllerFactory(): IndexPetsController {
     createPetsRepository,
     idGenerator
   );
-  return new IndexPetsController(indexPetsService);
+  const controller = new IndexPetsController(indexPetsService);
+  return makeDbTransactionControllerDecoratorFactory(controller);
 }

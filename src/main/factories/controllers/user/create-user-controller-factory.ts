@@ -1,9 +1,11 @@
 import { CreateUserController } from "../../../../presentation/controllers";
 import { BcryptAdapter, UuidAdapter } from "../../../../infra/adapters";
+import { makeDbTransactionControllerDecoratorFactory } from "../..";
 import { UserMongoDBRepository } from "../../../../infra/databases";
 import { CreateUserService } from "../../../../data/services";
+import { ControllerInterface } from "../../../protocols";
 
-export function makeCreateUserControllerFactory(): CreateUserController {
+export function makeCreateUserControllerFactory(): ControllerInterface {
   const createUserRepository = new UserMongoDBRepository();
   const getUserByEmailRepository = new UserMongoDBRepository();
   const idGenerator = new UuidAdapter();
@@ -14,5 +16,6 @@ export function makeCreateUserControllerFactory(): CreateUserController {
     idGenerator,
     passwordHasher
   );
-  return new CreateUserController(createUserService);
+  const controller = new CreateUserController(createUserService);
+  return makeDbTransactionControllerDecoratorFactory(controller);
 }
