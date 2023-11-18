@@ -10,12 +10,12 @@ import {
   RequiredFieldError,
 } from "../../../src/presentation/helpers";
 import {
-  MongoDBConnector,
+  MongoDBConnectorSingleton,
   UserMongoDbModel,
 } from "../../../src/infra/databases";
 
 const route = "/user";
-const databaseConnector = new MongoDBConnector();
+const databaseConnector = MongoDBConnectorSingleton.getInstance();
 let frameworkAdapter: ExpressAdapter;
 let app: Express;
 

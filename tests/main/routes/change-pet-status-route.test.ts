@@ -12,7 +12,7 @@ import {
   UnauthorizedError,
 } from "../../../src/presentation/helpers";
 import {
-  MongoDBConnector,
+  MongoDBConnectorSingleton,
   PetMongoDbModel,
   UserMongoDbModel,
 } from "../../../src/infra/databases";
@@ -54,7 +54,7 @@ const saveUserInDatabase = async (user: UserEntityType): Promise<void> => {
 };
 
 const route = "/pet";
-const databaseConnector = new MongoDBConnector();
+const databaseConnector = MongoDBConnectorSingleton.getInstance();
 let frameworkAdapter: ExpressAdapter;
 let app: Express;
 

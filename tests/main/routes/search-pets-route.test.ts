@@ -7,7 +7,7 @@ import { EnvVars } from "../../../src/main/config";
 import { Express } from "express";
 import request from "supertest";
 import {
-  MongoDBConnector,
+  MongoDBConnectorSingleton,
   PetMongoDbModel,
   UserMongoDbModel,
 } from "../../../src/infra/databases";
@@ -17,7 +17,7 @@ const savePetInDatabase = async (pet: PetEntityType): Promise<void> => {
 };
 
 const route = "/pet";
-const databaseConnector = new MongoDBConnector();
+const databaseConnector = MongoDBConnectorSingleton.getInstance();
 let frameworkAdapter: ExpressAdapter;
 let app: Express;
 

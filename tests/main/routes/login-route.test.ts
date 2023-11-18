@@ -8,7 +8,7 @@ import { EnvVars } from "../../../src/main/config";
 import { Express } from "express";
 import request from "supertest";
 import {
-  MongoDBConnector,
+  MongoDBConnectorSingleton,
   UserMongoDbModel,
 } from "../../../src/infra/databases";
 import {
@@ -24,7 +24,7 @@ const saveUserInDatabase = async (user: UserEntityType): Promise<void> => {
 };
 
 const route = "/login";
-const databaseConnector = new MongoDBConnector();
+const databaseConnector = MongoDBConnectorSingleton.getInstance();
 let frameworkAdapter: ExpressAdapter;
 let app: Express;
 

@@ -1,13 +1,13 @@
 import { makeUserEntity } from "../../../test-helpers/mocks";
 import mongoose from "mongoose";
 import {
-  MongoDBConnector,
+  MongoDBConnectorSingleton,
   UserMongoDBRepository,
   UserMongoDbModel,
 } from "../../../../src/infra/databases";
 
 mongoose.Promise = global.Promise;
-const databaseConnector = new MongoDBConnector();
+const databaseConnector = MongoDBConnectorSingleton.getInstance();
 
 type SutTypes = {
   sut: UserMongoDBRepository;

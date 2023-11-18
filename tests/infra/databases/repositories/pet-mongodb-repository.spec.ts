@@ -7,13 +7,13 @@ import {
   PetStatusEnum,
 } from "../../../../src/domain/protocols";
 import {
-  MongoDBConnector,
+  MongoDBConnectorSingleton,
   PetMongoDBRepository,
   PetMongoDbModel,
 } from "../../../../src/infra/databases";
 
 mongoose.Promise = global.Promise;
-const databaseConnector = new MongoDBConnector();
+const databaseConnector = MongoDBConnectorSingleton.getInstance();
 
 type SutTypes = {
   sut: PetMongoDBRepository;
