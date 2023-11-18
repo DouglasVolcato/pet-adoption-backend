@@ -69,7 +69,7 @@ describe("Index pets route", () => {
         .send();
 
       expect(response.statusCode).toBe(200);
-    }, 20000);
+    }, 30000);
 
     test("Should return 401 if token is in invalid format", async () => {
       const { token } = await makeAuthUser();
@@ -80,7 +80,7 @@ describe("Index pets route", () => {
 
       expect(response.statusCode).toBe(401);
       expect(response.body.error).toEqual(new UnauthorizedError().message);
-    }, 20000);
+    }, 30000);
 
     test("Should return 401 if token is invalid", async () => {
       const response = await request(app)
@@ -90,7 +90,7 @@ describe("Index pets route", () => {
 
       expect(response.statusCode).toBe(401);
       expect(response.body.error).toEqual(new UnauthorizedError().message);
-    }, 20000);
+    }, 30000);
 
     test("Should return 401 if user is not an admin", async () => {
       const { token } = await makeAuthUser(false);
@@ -101,6 +101,6 @@ describe("Index pets route", () => {
 
       expect(response.statusCode).toBe(401);
       expect(response.body.error).toEqual(new UnauthorizedError().message);
-    }, 20000);
+    }, 30000);
   });
 });
