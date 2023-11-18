@@ -18,103 +18,50 @@ const makeSut = (): SutTypes => {
 };
 
 describe("GatewayComposite", () => {
-  describe("Request", () => {
-    test("Should call the first gateway", async () => {
-      const { sut, gatewayStub1, gatewayStub2 } = makeSut();
-      const gatewayStubSpy1 = jest.spyOn(gatewayStub1, "request");
-      const gatewayStubSpy2 = jest.spyOn(gatewayStub2, "request");
-      await sut.request();
+  test("Should call both gateways", async () => {
+    const { sut, gatewayStub1, gatewayStub2 } = makeSut();
+    const gatewayStubSpy1 = jest.spyOn(gatewayStub1, "request");
+    const gatewayStubSpy2 = jest.spyOn(gatewayStub2, "request");
+    for await (const data of sut.request()) {
+    }
 
-      expect(gatewayStubSpy1).toHaveBeenCalledTimes(1);
-      expect(gatewayStubSpy2).toHaveBeenCalledTimes(0);
-    });
-
-    test("Should return the first gateway data", async () => {
-      const { sut, gatewayStub1, gatewayStub2 } = makeSut();
-      const outputGateway1 = makeRandonData();
-      const outputGateway2 = makeRandonData();
-      jest
-        .spyOn(gatewayStub1, "request")
-        .mockReturnValueOnce(Promise.resolve(outputGateway1));
-      jest
-        .spyOn(gatewayStub2, "request")
-        .mockReturnValueOnce(Promise.resolve(outputGateway2));
-      const output = await sut.request();
-
-      expect(output).toEqual(outputGateway1);
-    });
-
-    test("Should return the second gateway if the first gateway request has finished", async () => {
-      const { sut, gatewayStub1, gatewayStub2 } = makeSut();
-      const outputGateway1 = makeRandonData();
-      const outputGateway2 = makeRandonData();
-      jest
-        .spyOn(gatewayStub1, "request")
-        .mockReturnValueOnce(Promise.resolve(outputGateway1));
-      jest.spyOn(gatewayStub1, "requestFinished").mockReturnValueOnce(true);
-      jest
-        .spyOn(gatewayStub2, "request")
-        .mockReturnValueOnce(Promise.resolve(outputGateway2));
-      const output = await sut.request();
-
-      expect(output).toEqual(outputGateway2);
-    });
-
-    test("Should return an empty array if all requests have been finished", async () => {
-      const { sut, gatewayStub1, gatewayStub2 } = makeSut();
-      const outputGateway1 = makeRandonData();
-      const outputGateway2 = makeRandonData();
-      jest
-        .spyOn(gatewayStub1, "request")
-        .mockReturnValueOnce(Promise.resolve(outputGateway1));
-      jest.spyOn(gatewayStub1, "requestFinished").mockReturnValueOnce(true);
-      jest
-        .spyOn(gatewayStub2, "request")
-        .mockReturnValueOnce(Promise.resolve(outputGateway2));
-      jest.spyOn(gatewayStub2, "requestFinished").mockReturnValueOnce(true);
-      const output = await sut.request();
-
-      expect(output).toEqual([]);
-    });
-
-    test("Should throw if gateway throws", async () => {
-      const { sut, gatewayStub1 } = makeSut();
-      jest.spyOn(gatewayStub1, "request").mockImplementationOnce(() => {
-        throw new Error();
-      });
-
-      expect(async () => await sut.request()).rejects.toThrow();
-    });
-
-    test("Constructor should set the gateways property", async () => {
-      const { sut, gatewayStub1, gatewayStub2 } = makeSut();
-
-      expect((sut as any).gateways).toEqual([gatewayStub1, gatewayStub2]);
-    });
+    expect(gatewayStubSpy1).toHaveBeenCalledTimes(1);
+    expect(gatewayStubSpy2).toHaveBeenCalledTimes(1);
   });
 
-  describe("RequestFinished", () => {
-    test("Should return false", async () => {
-      const { sut } = makeSut();
+  test("Should the data returned by the gateways", async () => {
+    const { sut, gatewayStub1, gatewayStub2 } = makeSut();
+    const data = [makeRandonData()];
+    async function* gatewayReturn(data: any) {
+      return Promise.resolve(data);
+    }
+    jest
+      .spyOn(gatewayStub1, "request")
+      .mockReturnValueOnce(gatewayReturn(data));
+    jest
+      .spyOn(gatewayStub2, "request")
+      .mockReturnValueOnce(gatewayReturn(data));
 
-      expect(sut.requestFinished()).toBeFalsy();
+    for await (const output of sut.request()) {
+      expect(output).toEqual(data);
+    }
+  });
+
+  test("Should throw if gateway throws", async () => {
+    const { sut, gatewayStub1 } = makeSut();
+    jest.spyOn(gatewayStub1, "request").mockImplementationOnce(() => {
+      throw new Error();
     });
 
-    test("Should return true if all requests from all gateways have been finishes", async () => {
-      const { sut, gatewayStub1, gatewayStub2 } = makeSut();
-      jest.spyOn(gatewayStub1, "requestFinished").mockReturnValueOnce(true);
-      jest.spyOn(gatewayStub2, "requestFinished").mockReturnValueOnce(true);
+    expect(async () => {
+      for await (const data of sut.request()) {
+      }
+    }).rejects.toThrow();
+  });
 
-      expect(sut.requestFinished()).toBeTruthy();
-    });
+  test("Constructor should set the gateways property", async () => {
+    const { sut, gatewayStub1, gatewayStub2 } = makeSut();
 
-    test("Should throw if a gateway throws", async () => {
-      const { sut, gatewayStub1 } = makeSut();
-      jest.spyOn(gatewayStub1, "requestFinished").mockImplementationOnce(() => {
-        throw new Error();
-      });
-
-      expect(() => sut.requestFinished()).toThrow();
-    });
+    expect((sut as any).gateways).toEqual([gatewayStub1, gatewayStub2]);
   });
 });

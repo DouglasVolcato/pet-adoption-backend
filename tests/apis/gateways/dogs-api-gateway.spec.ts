@@ -41,13 +41,15 @@ describe("DogsApiGateway", () => {
     const { sut, clientGetRequestSender } = makesut(url, headers);
     jest
       .spyOn(clientGetRequestSender, "get")
+      .mockReturnValueOnce(Promise.resolve([makePetApi()]))
       .mockReturnValueOnce(Promise.resolve([makePetApi()]));
     const requestSenderSpy = jest.spyOn(clientGetRequestSender, "get");
-    await sut.request();
+    for await (const data of sut.request()) {
+    }
 
-    expect(requestSenderSpy).toHaveBeenCalledTimes(1);
-    expect(requestSenderSpy).toHaveBeenCalledWith(
-      `${url}?limit=80&order=Asc&page=0`,
+    expect(requestSenderSpy).toHaveBeenCalledTimes(2);
+    expect(requestSenderSpy).toHaveBeenLastCalledWith(
+      `${url}?limit=80&order=Asc&page=1`,
       headers
     );
   });
@@ -57,37 +59,34 @@ describe("DogsApiGateway", () => {
     const apiResponse = [makePetApi(), makePetApi()];
     jest
       .spyOn(clientGetRequestSender, "get")
+      .mockReturnValueOnce(Promise.resolve(apiResponse))
       .mockReturnValueOnce(Promise.resolve(apiResponse));
-    const output = await sut.request();
 
-    expect(output).toEqual(
-      apiResponse.map((pet) => ({
-        id: "",
-        createdAt: "",
-        image: pet.url,
-        name: pet.breeds.length > 0 ? pet.breeds[0].name : "Dog",
-        description: pet.breeds.length > 0 ? pet.breeds[0].description : "",
-        category: PetCategoryEnum.DOGS,
-        status: PetStatusEnum.FREE,
-      }))
-    );
+    for await (const output of sut.request()) {
+      expect(output).toEqual(
+        apiResponse.map((pet) => ({
+          id: "",
+          createdAt: "",
+          image: pet.url,
+          name: pet.breeds.length > 0 ? pet.breeds[0].name : "Dog",
+          description: pet.breeds.length > 0 ? pet.breeds[0].description : "",
+          category: PetCategoryEnum.DOGS,
+          status: PetStatusEnum.FREE,
+        }))
+      );
+    }
   });
 
   test("Should increment page counter", async () => {
     const { sut, clientGetRequestSender } = makesut();
     jest
       .spyOn(clientGetRequestSender, "get")
+      .mockReturnValueOnce(Promise.resolve([makePetApi()]))
       .mockReturnValueOnce(Promise.resolve([makePetApi()]));
-    await sut.request();
+    for await (const output of sut.request()) {
+    }
 
-    expect((sut as any).page).toBe(1);
-  });
-
-  test("Should return true if page counter is 2", async () => {
-    const { sut } = makesut();
-    (sut as any).page = 2;
-
-    expect(sut.requestFinished()).toBeTruthy();
+    expect((sut as any).page).toBe(2);
   });
 
   test("Should throw if ClientGetRequestSender throws", async () => {
@@ -96,6 +95,9 @@ describe("DogsApiGateway", () => {
       throw new Error();
     });
 
-    expect(async () => await sut.request()).rejects.toThrow();
+    await expect(async () => {
+      for await (const output of sut.request()) {
+      }
+    }).rejects.toThrow();
   });
 });

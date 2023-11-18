@@ -44,12 +44,11 @@ const makeSut = (): SutTypes => {
 
 describe("indexPetsService", () => {
   test("Should call DeleteAllPetsRepository", async () => {
-    const { sut, deleteAllPetsRepository, petSearcher } = makeSut();
+    const { sut, deleteAllPetsRepository } = makeSut();
     const deleteAllPetsRepositorySpy = jest.spyOn(
       deleteAllPetsRepository,
       "deleteAllPets"
     );
-    jest.spyOn(petSearcher, "requestFinished").mockReturnValueOnce(true);
     await sut.execute();
 
     expect(deleteAllPetsRepositorySpy).toHaveBeenCalledTimes(1);
@@ -69,27 +68,9 @@ describe("indexPetsService", () => {
   test("Should call PetSearcher", async () => {
     const { sut, petSearcher } = makeSut();
     const petSearcherSpy = jest.spyOn(petSearcher, "request");
-    jest
-      .spyOn(petSearcher, "requestFinished")
-      .mockReturnValueOnce(false)
-      .mockReturnValueOnce(true);
     await sut.execute();
 
     expect(petSearcherSpy).toHaveBeenCalledTimes(1);
-  });
-
-  test("Should stop calling PetSearcher when the request has finished", async () => {
-    const { sut, petSearcher } = makeSut();
-    const petSearcherSpy = jest.spyOn(petSearcher, "request");
-    jest
-      .spyOn(petSearcher, "requestFinished")
-      .mockReturnValueOnce(false)
-      .mockReturnValueOnce(false)
-      .mockReturnValueOnce(false)
-      .mockReturnValueOnce(true);
-    await sut.execute();
-
-    expect(petSearcherSpy).toHaveBeenCalledTimes(3);
   });
 
   test("Should throw if PetSearcher throws", async () => {
@@ -98,7 +79,7 @@ describe("indexPetsService", () => {
       throw new Error();
     });
 
-    expect(async () => await sut.execute()).rejects.toThrow();
+    await expect(async () => await sut.execute()).rejects.toThrow();
   });
 
   test("Should call CreatePetsRepository with correct values", async () => {
@@ -110,15 +91,13 @@ describe("indexPetsService", () => {
       createPetsRepository,
       "createPets"
     );
+    const asyncGeneratorFunction = async function* () {
+      yield foundPets;
+    };
     jest
       .spyOn(petSearcher, "request")
-      .mockReturnValueOnce(Promise.resolve(foundPets));
-    jest.spyOn(idGenerator, "generateId").mockReturnValueOnce(petId);
-    jest.spyOn(idGenerator, "generateId").mockReturnValueOnce(petId);
-    jest
-      .spyOn(petSearcher, "requestFinished")
-      .mockReturnValueOnce(false)
-      .mockReturnValueOnce(true);
+      .mockReturnValueOnce(asyncGeneratorFunction());
+    jest.spyOn(idGenerator, "generateId").mockReturnValue(petId);
     await sut.execute();
 
     expect(createPetsRepositorySpy).toHaveBeenCalledTimes(1);
@@ -128,22 +107,34 @@ describe("indexPetsService", () => {
   });
 
   test("Should throw if CreatePetsRepository throws", async () => {
-    const { sut, createPetsRepository } = makeSut();
+    const { sut, petSearcher, createPetsRepository } = makeSut();
+    const asyncGeneratorFunction = async function* () {
+      yield [makePetEntity(), makePetEntity()];
+    };
+    jest
+      .spyOn(petSearcher, "request")
+      .mockReturnValueOnce(asyncGeneratorFunction());
     jest
       .spyOn(createPetsRepository, "createPets")
       .mockImplementationOnce(() => {
         throw new Error();
       });
 
-    expect(async () => await sut.execute()).rejects.toThrow();
+    await expect(async () => await sut.execute()).rejects.toThrow();
   });
 
   test("Should throw if IdGenerator throws", async () => {
-    const { sut, idGenerator } = makeSut();
+    const { sut, petSearcher, idGenerator } = makeSut();
+    const asyncGeneratorFunction = async function* () {
+      yield [makePetEntity(), makePetEntity()];
+    };
+    jest
+      .spyOn(petSearcher, "request")
+      .mockReturnValueOnce(asyncGeneratorFunction());
     jest.spyOn(idGenerator, "generateId").mockImplementationOnce(() => {
       throw new Error();
     });
 
-    expect(async () => await sut.execute()).rejects.toThrow();
+    await expect(async () => await sut.execute()).rejects.toThrow();
   });
 });

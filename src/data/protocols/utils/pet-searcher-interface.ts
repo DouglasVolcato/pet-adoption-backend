@@ -3,5 +3,4 @@ import { PetEntityType } from "../../../domain/protocols";
 
 export interface PetSearcherInterface {
   request(): GatewayOutputType<PetEntityType[]>;
-  requestFinished(): boolean;
 }

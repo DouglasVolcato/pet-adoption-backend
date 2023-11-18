@@ -7,6 +7,7 @@ import {
   GetPetsRepositoryInterface,
   PetSearchParamsType,
 } from "../../../../data/protocols";
+import { SearchQueryBuilder } from "../../../builders";
 
 export class PetMongoDBRepository
   implements
@@ -42,6 +43,17 @@ export class PetMongoDBRepository
   public async getPets(
     searchParams: PetSearchParamsType
   ): Promise<PetEntityType[]> {
+    const query = new SearchQueryBuilder()
+      .ofParams(searchParams)
+      .withCallback(this.buildPetSearchParams)
+      .build();
+    const pets = await PetMongoDbModel.find(query)
+      .limit(searchParams.limit)
+      .skip(searchParams.offset);
+    return pets.map((pet) => this.map(pet.toObject()));
+  }
+
+  private buildPetSearchParams(searchParams: PetSearchParamsType): any {
     const query: any = {};
     if (searchParams.term) {
       query.$or = [
@@ -58,11 +70,7 @@ export class PetMongoDBRepository
     if (searchParams.createdAt) {
       query.createdAt = { $eq: searchParams.createdAt };
     }
-
-    const pets = await PetMongoDbModel.find(query)
-      .limit(searchParams.limit)
-      .skip(searchParams.offset);
-    return pets.map((pet) => this.map(pet.toObject()));
+    return query;
   }
 
   private map(data: PetEntityType): PetEntityType {
