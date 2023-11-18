@@ -23,3 +23,4 @@ export * from "./services/create-user-service-stub";
 export * from "./services/index-pets-service-stub";
 export * from "./services/login-service-stub";
 export * from "./services/search-pets-service-stub";
+export * from "./database/database-connector-stub";
