@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
 import { DatabaseConnectorInterface } from "../../../../presentation/protocols";
+import mongoose from "mongoose";
 
 export class MongoDBConnectorSingleton implements DatabaseConnectorInterface {
   private session: mongoose.ClientSession | undefined;
@@ -22,8 +22,6 @@ export class MongoDBConnectorSingleton implements DatabaseConnectorInterface {
     if (!this.session) {
       this.session = await mongoose.startSession();
       this.session.startTransaction();
-    } else {
-      throw new Error("Transaction already in progress.");
     }
   }
 
@@ -32,8 +30,6 @@ export class MongoDBConnectorSingleton implements DatabaseConnectorInterface {
       await this.session.commitTransaction();
       this.session.endSession();
       this.session = undefined;
-    } else {
-      throw new Error("No active transaction to commit.");
     }
   }
 
@@ -42,8 +38,6 @@ export class MongoDBConnectorSingleton implements DatabaseConnectorInterface {
       await this.session.abortTransaction();
       this.session.endSession();
       this.session = undefined;
-    } else {
-      throw new Error("No active transaction to rollback.");
     }
   }
 }
