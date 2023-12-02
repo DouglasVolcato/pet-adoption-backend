@@ -4,6 +4,7 @@
   "description": "",
   "main": "dist/src/main/index.js",
   "scripts": {
+    "build": "tsc",
     "start": "tsc && node dist/src/main/index.js",
     "test": "jest --passWithNoTests --runInBand --forceExit -c jest.config.js",
     "test-unit": "jest --passWithNoTests -c jest.unit.config.js",
